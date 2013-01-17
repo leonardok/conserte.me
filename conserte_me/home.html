@@ -49,24 +49,18 @@
     </div>
 
     <div class="container">
+      <div class="row"><div class="span12"><div id="map_canvas" class="map" style="height:400px"> </div></div></div>
+      <div class="row"><div class="span12">
+          <h2>Ultimos problemas encontrados:</h2>
+	  <table class='table table-striped'>
+	    <tr><th>Nome</th><th>Descricao</th><th>Data</th></tr>
+	    <tr><td>Problema a</td><td>descricao do que foi encontrados. Se for muito grande...</td><td>16/02/2013</td></tr>
+	    <tr><td>Problema b</td><td>descricao do que foi encontrados. Se for muito grande...</td><td>16/02/2013</td></tr>
+	    <tr><td>Problema c</td><td>descricao do que foi encontrados. Se for muito grande...</td><td>16/02/2013</td></tr>
+	    <tr><td>Problema d</td><td>descricao do que foi encontrados. Se for muito grande...</td><td>16/02/2013</td></tr>
+	  </table>
+      </div></div>
 
-      <!-- Main hero unit for a primary marketing message or call to action -->
-      <div class="hero-unit">
-        <h1>Concerte.me!</h1>
-        <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-        <p><a class="btn btn-primary btn-large">Learn more &raquo;</a></p>
-      </div>
-
-      <div class=row>
-        <div class="span12">
-          <table class='table table-striped'>
-            <tr><td>Problema a</td></tr>
-            <tr><td>Problema b</td></tr>
-            <tr><td>Problema c</td></tr>
-            <tr><td>Problema d</td></tr>
-          </table>
-        </div>
-      </div>
 
       <hr>
 
@@ -81,6 +75,17 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="{{STATIC_URL}}js/bootstrap.js"></script>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/jquery.ui.map.min.js"></script>
+
+    <script>
+	$('#map_canvas').gmap({ 'center': '-30.031278,-51.226158' }).bind('init', function(ev, map) {
+		$('#map_canvas').gmap('addMarker', {'position': '-30.031278,-51.226158', 'bounds': true}).click(function() {
+			$('#map_canvas').gmap('openInfoWindow', {'content': 'Buraco na rua'}, this);
+		});
+		$('#map_canvas').gmap('option', 'zoom', 14);
+	});
+    </script>
 
   </body>
 </html>
