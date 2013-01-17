@@ -3,7 +3,6 @@ import django
 
 
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
-
 # Django settings for conserte_me project.
 
 DEBUG = True
@@ -62,7 +61,7 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = '/home/conserte_me/website/public/assets'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -73,7 +72,6 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    './assets/',
 )
 
 # List of finder classes that know how to find static files in
@@ -85,7 +83,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = '!!a5*#5^i_lk964y3q)9fi=hf*_n(msj3%xbe+96lksgkbyykh'
+SECRET_KEY = 's#_3ozw)&amp;(h+2=^t26h1w&amp;z47!pd#0ptsz!*+&amp;nex7vsul_o&amp;i'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -114,6 +112,7 @@ TEMPLATE_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     SITE_ROOT,
+    '/home/conserte_me/website/conserte_me',
 )
 
 INSTALLED_APPS = (
