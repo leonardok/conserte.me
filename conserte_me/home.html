@@ -11,9 +11,34 @@
     <!-- Le styles -->
     <link href="{{STATIC_URL}}css/bootstrap.css" rel="stylesheet">
     <style type="text/css">
+      html, body {height: 100%; width: 100%}
       body {
-        padding-top: 60px;
-        padding-bottom: 40px;
+        width: 100%;
+      }
+      .fill { 
+        min-height: 100%;
+        height: 100%;
+        width: 100%;
+      }
+      #map_canvas {
+        position: absolute; 
+        top: 40px; 
+        height: 100%; 
+        width: 100%; 
+        min-height: 100%;
+        padding: 0px; 
+      }
+      .info-panel {
+        position: absolute; 
+        background-color: rgba(0, 0, 0, 0.6);
+        color: white;
+        top: 80px; 
+        right: 40px; 
+        z-index: 99; 
+        height: 500px; 
+        width: 350px;
+        padding: 20px;
+        -webkit-border-radius: 5px;
       }
     </style>
     <link href="{{STATIC_URL}}css/bootstrap-responsive.css" rel="stylesheet">
@@ -29,46 +54,44 @@
 
   <body>
 
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href="#">Conserte.me!</a>
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li class=""><a href="#">About</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
+      <div class="navbar navbar-inverse navbar-static-top">
+        <div class="navbar-inner">
+          <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="#">Conserte.me!</a>
+            <div class="nav-collapse collapse">
+              <ul class="nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li class=""><a href="#">About</a></li>
+              </ul>
+            </div><!--/.nav-collapse -->
+          </div>
         </div>
       </div>
-    </div>
+     
+     
+     
+      <div id="map_canvas" class="map fill"> </div>
 
-    <div class="container">
-      <div class="row"><div class="span12"><div id="map_canvas" class="map" style="height:400px"> </div></div></div>
-      <div class="row"><div class="span12">
-          <h2>Ultimos problemas encontrados:</h2>
-	  <table class='table table-striped'>
-	    <tr><th>Nome</th><th>Descricao</th><th>Data</th></tr>
-	    <tr><td>Problema a</td><td>descricao do que foi encontrados. Se for muito grande...</td><td>16/02/2013</td></tr>
-	    <tr><td>Problema b</td><td>descricao do que foi encontrados. Se for muito grande...</td><td>16/02/2013</td></tr>
-	    <tr><td>Problema c</td><td>descricao do que foi encontrados. Se for muito grande...</td><td>16/02/2013</td></tr>
-	    <tr><td>Problema d</td><td>descricao do que foi encontrados. Se for muito grande...</td><td>16/02/2013</td></tr>
-	  </table>
-      </div></div>
-
-
+    <div class="info-panel">
+      <h3>Estat&iacute;sticas</h3>
+      Problemas ainda nao resolvidos: 3232
       <hr>
-
-      <footer>
-        <p>&copy; Company 2012</p>
-      </footer>
-
-    </div> <!-- /container -->
+      <h4>Totais para esta regiao</h4>
+      Total de problemas cadastrados: 3232 </br>
+      Total de problemas resolvidos: 3232 </br>
+      <hr>
+      <h4>Problemas mais recorrentes:</h4>
+      <ul>
+        <li>Problemas nas ruas: 540</li>
+        <li>Problemas nas calcadas: 321</li>
+        <li>Problemas com patrimonio publico: 51</li>
+      </ul>
+    </div>
 
     <!-- Le javascript
     ================================================== -->
@@ -79,7 +102,11 @@
     <script type="text/javascript" src="{{STATIC_URL}}js/jquery.ui.map.min.js"></script>
 
     <script>
-	$('#map_canvas').gmap({ 'center': '-30.031278,-51.226158' }).bind('init', function(ev, map) {
+	$('#map_canvas').gmap({ 
+                                'center': '-30.031278,-51.226158', 
+                                'scrollwheel': false, 
+                                'mapTypeControl': false,
+                              }).bind('init', function(ev, map) {
 		$('#map_canvas').gmap('addMarker', {'position': '-30.031278,-51.226158', 'bounds': true}).click(function() {
 			$('#map_canvas').gmap('openInfoWindow', {'content': 'Buraco na rua'}, this);
 		});

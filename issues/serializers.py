@@ -5,4 +5,4 @@ from issues import models
 class IssueSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = models.Issue
-		fields = ('id', 'name')
+		fields = ('id', 'name', 'description', 'latitude', 'longitude', 'created_at', 'updated_at')

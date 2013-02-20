@@ -113,6 +113,7 @@ TEMPLATE_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
     SITE_ROOT,
     '/home/conserte_me/website/conserte_me',
+    '/home/conserte_me/website/issues',
 )
 
 INSTALLED_APPS = (

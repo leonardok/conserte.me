@@ -4,6 +4,7 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from issues.models import Issue
 from issues.serializers import IssueSerializer
+from django.shortcuts import render
 
 # Create your views here.
 class JSONResponse(HttpResponse):
@@ -35,3 +36,7 @@ def issue(request):
 		else:
 			return JSONResponse(serializer.errors, status=400)
 
+
+
+def new(request):
+	return render(request, 'mobile.html')
