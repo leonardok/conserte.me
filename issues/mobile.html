@@ -6,27 +6,6 @@
 		<link href="/assets/css/bootstrap.css" rel="stylesheet">
 		<link href="/assets/css/bootstrap-responsive.css" rel="stylesheet">
 		<title>Geolocation Test</title>
- 
-		<script language="javascript" type="text/javascript">
-			function getLocation() {
-				// Get location no more than 10 minutes old. 600000 ms = 10 minutes.
-				navigator.geolocation.getCurrentPosition(showLocation, showError, {enableHighAccuracy:true,maximumAge:600000});
-			}
- 
-			function showError(error) {
-				alert(error.code + ' ' + error.message);
-			}
- 
-			function showLocation(position) {
-				geoinfo.innerHTML='<p>Latitude: ' + position.coords.latitude + '</p>' 
-				+ '<p>Longitude: ' + position.coords.longitude + '</p>' 
-				+ '<p>Accuracy: ' + position.coords.accuracy + '</p>' 
-				+ '<p>Altitude: ' + position.coords.altitude + '</p>' 
-				+ '<p>Altitude accuracy: ' + position.coords.altitudeAccuracy + '</p>' 
-				+ '<p>Speed: ' + position.coords.speed + '</p>' 
-				+ '<p>Heading: ' + position.coords.heading + '</p>';
-			}
-		</script>
 	</head>
 	<body>
  
@@ -44,11 +23,14 @@
 						margin-top: 20px;
 					}
 				</style>
-				<form class=''>
-					<input type="text" class="input-block-level" style='font-size: 1.3em;' placeholder="Nome do problema">
-					<textarea class='input-block-level' rows="4" placeholder='Descricao do problema'></textarea>
+				<form action="/issues" method="post">
+					{% csrf_token %}
+					<input type="text" name="name" class="input-block-level" style='font-size: 1.3em;' placeholder="Nome do problema">
+					<textarea class='input-block-level' rows="4" placeholder='Descricao do problema' name="description"></textarea>
+					<input type="hidden" value="" name="latitude" id="latitude">
+					<input type="hidden" value="" name="longitude" id="longitude">
 					<div class="control-group"><div class="controls">
-						<button class="btn btn-large btn-success" type="button">Submit</button>
+						<button class="btn btn-large btn-success" type="submit">Submit</button>
 					</div></div>
 				</form>
 				</div>
@@ -59,12 +41,16 @@
 		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 		<script src="/assets/js/bootstrap.js"></script>
 		<script language="javascript" type="text/javascript">	
-			if (navigator.geolocation) {  
-				button = '<p><input type="button" onclick="getLocation()" value="Show Geolocation Information" /></p>';
-			} else {  
-				button = document.write('<p>Sorry, your device or browser software does not appear to support geolocation services.</p>');  
-			}  
-			$('#geoinfo').prop('innerHTML', button);
+			function showError(error) {
+                                alert(error.code + ' ' + error.message);
+                        }
+
+			function showLocation(position) {
+				$('#latitude').val(position.coords.latitude);
+				$('#longitude').val(position.coords.longitude);
+                        }
+			navigator.geolocation.getCurrentPosition(showLocation, showError, {enableHighAccuracy:true,maximumAge:600000});
+
 		</script>
 	</body>
 </html>

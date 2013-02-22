@@ -10,6 +10,18 @@ class Category(models.Model):
 
 
 
+class Comment(models.Model):
+	name = models.CharField(max_length=200)
+	email = models.CharField(max_length=200)
+	comment = models.TextField()
+
+	issue = models.ForeignKey('Issue', blank=True, null=True)
+
+	def __unicode__(self):
+		return self.comment
+
+
+
 class Issue(models.Model):
 	name = models.CharField(max_length=200)
 	address = models.CharField(max_length=200, null=True, blank=True)
@@ -18,13 +30,14 @@ class Issue(models.Model):
 	created_at = models.DateTimeField(auto_now=True)
 	updated_at = models.DateTimeField(auto_now=True)
 	
+	open = models.BooleanField(default=True)
 
 	latitude  = models.DecimalField(max_digits=10, decimal_places=5, null=True, blank=True)
 	longitude = models.DecimalField(max_digits=10, decimal_places=5, null=True, blank=True)
 
 	category = models.ForeignKey(Category, null=True, blank=True)
 
-	def _unicode_(self):
+	def __unicode__(self):
 		return self.name
 
 

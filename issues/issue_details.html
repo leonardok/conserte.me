@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Conserte.me!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="/assets/css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      html, body {height: 100%; width: 100%}
+      body {
+        width: 100%;
+      }
+      .fill { 
+        min-height: 100%;
+        height: 100%;
+        width: 100%;
+      }
+      .container.content { padding-top: 40px }
+      .form-horizontal .control-label { width: 100px; text-align: left }
+      .form-horizontal .controls { margin-left: 100px }
+    </style>
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="shortcut icon" href="../assets/ico/favicon.png">
+  </head>
+
+  <body>
+
+      <div class="navbar navbar-inverse navbar-static-top">
+        <div class="navbar-inner">
+          <div class="container">
+            <a class="brand" href="/">Conserte.me!</a>
+            <div class="nav-collapse collapse">
+              <ul class="nav">
+                <!--li class="active"><a href="#">Home</a></li-->
+                <li class=""><a href="#">About</a></li>
+              </ul>
+            </div><!--/.nav-collapse -->
+          </div>
+        </div>
+      </div>
+     
+     
+      <div class="container content">
+        <div class="row">
+          <div class="span8">
+            <h2>{{issue.name}}</h2>
+            <h3>Status: </h3> {% if issue.open %}Aberto{% else %}Fechado{% endif %}
+            <h3>Descricao</h3>
+            <p>
+            {{issue.description}}
+            </p>
+          </div>
+          <div class="span4">
+            <img src="http://wp.clicrbs.com.br/seuproblema/files/2012/11/01dgolspn16112012.jpg">
+          </div>
+        </div>
+
+        <div class="row-fluid">
+          <hr>
+          <h4>Deixe seu comentario</h4>
+        </div>
+
+        <!-- new comment -->
+
+	{% load comments %}
+        {% get_comment_form for issue as form %}
+        <div class="row">
+	  <div class="span12">
+	    <div class="row">
+		{{comment_form_target}}
+            <form action="{% comment_form_target %}" method="post" class="form-horizontal">
+	      {{ form.content_type }}
+	      {{ form.object_pk }}
+	      {{ form.timestamp }}
+	      {{ form.security_hash }}
+	      <input type="hidden" name="next" value="/issues/{{issue.id}}" />
+              {% csrf_token %}
+
+	      <div class="span5">
+                <div class="control-group">
+                  <label class="control-label" for="id_name">Nome:</label>
+                  <div class="controls">
+		    <input id="id_name" type="text" name="name" maxlength="50"><br>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label" for="id_comment">comentario:</label>
+                  <div class="controls">
+	            <textarea id="id_comment" class="input-block-level" rows="4" name="comment"></textarea>
+                  </div>
+                </div>
+                <!--div class="control-group">
+                  <label class="control-label" for="id_email">Email:</label>
+                  <div class="controls">
+		    <input type="text" name="email" id="id_email">
+                  </div>
+                </div-->
+                <div class="control-group">
+                  <div class="controls">
+                    <button type="submit" class="btn">Enviar</button>
+                  </div>
+                </div>
+              </div>
+
+	      <!--div class="span6">
+                <div class="control-group">
+                  <label class="control-label" for="id_comment">comentario:</label>
+                  <div class="controls">
+	            <textarea id="id_comment" class="input-block-level" rows="4" cols="40" name="comment"></textarea><br><br>
+                  </div>
+                </div>
+	      </div-->
+
+	    </form>
+	    </div>
+	  </div>
+
+          <div class="span12">
+	  {% render_comment_list for issue %}
+          </div>
+
+
+        </div>
+      </div>
+     
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="/assets/js/bootstrap.js"></script>
+  </body>
+</html>
+
+

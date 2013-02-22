@@ -1,5 +1,6 @@
 import os
 import django
+import logging
 
 
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
@@ -123,10 +124,15 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.comments',
+
     # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
+    'django.contrib.admin',
+    'django.contrib.staticfiles',
+
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+
     'conserte_me',
     'issues',
 
@@ -162,3 +168,12 @@ LOGGING = {
         },
     }
 }
+
+# setup logger
+import logging
+PROJECT_DIR = os.path.dirname(__file__)
+PARENT_DIR = os.path.dirname(PROJECT_DIR)
+logging.basicConfig(level=logging.DEBUG,
+    format='%(asctime)s %(levelname)s %(message)s',
+    filename=os.path.join(PARENT_DIR, 'django.log'),
+    filemode='a+')
