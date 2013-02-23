@@ -15,8 +15,8 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
 
-    url(r'^$', 'conserte_me.views.home', name='home'),
-    url(r'^', include('issues.urls')),
+    url(r'^$', 'conserte_me.views.index', name='home'),
+    url(r'^', include('issues.urls', app_name="issues")),
 
     url(r'^comments/', include('django.contrib.comments.urls')),
 )

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+
+{% block css %}
+  <style type="text/css">
+    table { table-layout: fixed; }
+    td.ellipsis-overflow { height: 25px; white-space:nowrap; overflow: hidden; text-overflow: ellipsis; }
+  </style>
+{% endblock %}
+
+
+{% block content %}
+  <div class="container" style="margin-top: 20px">
+
+    {% if issues %}
+    <table class="table-striped span12">
+      <thead>
+        <tr>
+          <th class="span3">Titulo</th>
+          <th class="span9">Descricao</th>
+        </tr>
+      </thead>
+
+      <tbody>
+      {% for issue in issues %}
+      <tr>
+        <td class="ellipsis-overflow"><a href="{% url issue_show issue.id %}">{{ issue.name }}</a></td>
+        <td class="ellipsis-overflow">{{ issue.description }}</td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    Nao existem pontos cadastrados.
+    {% endif %}
+
+  </div>
+{% endblock %}

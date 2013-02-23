@@ -1,4 +1,9 @@
 from django.db import models
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
+import simplejson as json
+import urllib2
+import logging
 
 # Create your models here.
 class Category(models.Model):
@@ -21,6 +26,30 @@ class Comment(models.Model):
 		return self.comment
 
 
+class City(models.Model):
+	name = models.CharField(max_length=50)
+	state = models.ForeignKey('State', blank=False, null=False)
+
+	def __unicode__(self):
+		return self.name
+
+
+class State(models.Model):
+	name = models.CharField(max_length=10)
+	long_name = models.CharField(max_length=50)
+	country = models.ForeignKey('Country', blank=False, null=False)
+
+	def __unicode__(self):
+		return self.name
+
+
+class Country(models.Model):
+	name = models.CharField(max_length=10)
+	long_name = models.CharField(max_length=50)
+
+	def __unicode__(self):
+		return self.name
+
 
 class Issue(models.Model):
 	name = models.CharField(max_length=200)
@@ -36,9 +65,42 @@ class Issue(models.Model):
 	longitude = models.DecimalField(max_digits=10, decimal_places=5, null=True, blank=True)
 
 	category = models.ForeignKey(Category, null=True, blank=True)
+	city = models.ForeignKey(City, null=False, blank=False)
 
 	def __unicode__(self):
 		return self.name
 
 
 
+	def save(self, *args, **kwargs):
+		self.name = self.name.capitalize()
+		self.description = str(self.description).capitalize()
+
+		if self.latitude and self.longitude:
+			url = "http://maps.googleapis.com/maps/api/geocode/json?sensor=false&latlng=" + str(self.latitude) + "," + str(self.longitude)
+			jsondata = json.load(urllib2.urlopen(url))
+			logging.debug(url)
+
+			logging.debug(jsondata['results'][0]['address_components'][0]['types'])
+
+			for address_component in jsondata['results'][0]['address_components']:
+				# logging.debug(address_component)
+				if ('locality' in address_component['types']):
+					city_long = address_component['long_name']
+					logging.debug('Found city: ' + str(city_long))
+				elif ('administrative_area_level_1' in address_component['types']):
+					state_short = address_component['short_name']
+					state_long = address_component['long_name']
+					logging.debug('Found state: ' + str(state_short))
+				elif ('country' in address_component['types']):
+					country_short = address_component['short_name']
+					country_long = address_component['long_name']
+					logging.debug('Found country: ' + str(country_long))
+
+			p, created = Country.objects.get_or_create(name=str(country_short), long_name=str(country_long))
+			s, created = State.objects.get_or_create(name=str(state_short), long_name=str(state_long), country=p)
+			c, created = City.objects.get_or_create(name=city_long, state=s)
+
+			self.city = c
+		
+		super(Issue, self).save(*args, **kwargs)

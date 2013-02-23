@@ -8,6 +8,9 @@ from django.shortcuts import render
 from django.db.models import Q
 import logging
 
+# For json
+import simplejson as json
+
 # Create your views here.
 class JSONResponse(HttpResponse):
     """
@@ -45,13 +48,27 @@ def issues(request):
 		return JSONResponse(serializer.data)
 
 	if request.method == 'POST':
-		data = JSONParser().parse(request)
-		serializer = IssueSerializer(data=data)
+		logging.debug(json.loads(request.raw_post_data))
+		try:
+			data = json.loads(request.raw_post_data)
+		except:
+			return JSONResponse("Could not parse JSON", status=400)
+			
+		serializer = IssueSerializer(data=data['issue'])
 		if serializer.is_valid():
 			serializer.save()
-			return JSONResponse(serializer.data, status=201)
+
+			response = {'issue': serializer.data}
+			return JSONResponse(response, status=201)
 		else:
 			return JSONResponse(serializer.errors, status=400)
 
 
 
+def get(request, issue_id):
+	if request.method == 'GET':
+		issue = Issue.objects.get(id=issue_id)
+		serializer = IssueSerializer(issue)
+		return JSONResponse(serializer.data)
+
+	raise Http404

@@ -26,6 +26,9 @@ DATABASES = {
     }
 }
 
+
+APPEND_SLASH = True
+
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
@@ -115,6 +118,7 @@ TEMPLATE_DIRS = (
     SITE_ROOT,
     '/home/conserte_me/website/conserte_me',
     '/home/conserte_me/website/issues',
+    '/home/conserte_me/website/templates',
 )
 
 INSTALLED_APPS = (
