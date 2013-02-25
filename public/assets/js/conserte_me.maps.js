@@ -65,12 +65,10 @@ function current_address(){
 				if (state != null) text = text + state;
 				$('#current_location').text(text);
 
-				var link = "issues/" + country + '/' + state + '/' + city.replace(/ /g,'') + '/';
+				var link = "issues/" + country + '/' + state + '/' + city.replace(/ /g,'') + '/?page=1';
 				$('#current_location_probs_a').attr('href', link); 
 			}
-		} else {
-			alert("Geocoder failed due to: " + status);
-		}
+		} else { }
 
 		enable_location_query = false;
 		setTimeout(function(){

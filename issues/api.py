@@ -48,6 +48,7 @@ def issues(request):
 		return JSONResponse(serializer.data)
 
 	if request.method == 'POST':
+		logging.debug(request.raw_post_data)
 		logging.debug(json.loads(request.raw_post_data))
 		try:
 			data = json.loads(request.raw_post_data)

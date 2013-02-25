@@ -7,6 +7,7 @@ from issues.models import Issue, City, State, Country
 from issues.serializers import IssueSerializer
 from django.shortcuts import render
 from django.db.models import Q
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import logging
 import re
 
@@ -26,13 +27,31 @@ def show(request, issue_id):
 	
 
 def search(request, country, state, city):
+	page = request.GET.get('page')
+	logging.debug ('Page: ' + str(page))
 	city_normal = re.sub('(.)([A-Z][a-z]+)', r'\1 \2', city)
+
+	issues = Issue.objects.none()
+
 	try:
-		issues = Issue.objects.filter( city= City.objects.get( name=city_normal, state= State.objects.get( name=state, country= Country.objects.get(name=country) ) ) )
-	except:
-		issues = Issue.objects.none()
+		issue_objects = Issue.objects.filter( city= City.objects.get( name=city_normal, state= State.objects.get( name=state, country= Country.objects.get(name=country) ) ) )
+		logging.debug (issue_objects)
+
+		paginator = Paginator(issue_objects, 20)
+		logging.debug (paginator)
+
+		page = paginator.page(int(page))
+
+		issues = page
+		logging.debug (paginator.page(page))
+	except PageNotAnInteger:
+		logging.debug ('Page not an integer')
+	except EmptyPage:
+		logging.debug ('Page empty')
+
 	logging.debug (city_normal)
-	return render(request, 'issues/index.html', {'city': city_normal, 'state': state, 'issues': issues})
+	return render(request, 'issues/index.html', {'city': city_normal, 'state': state, 'issues': issues, 'page': page})
+
 
 def new(request):
 	return render(request, 'issues/new.html')

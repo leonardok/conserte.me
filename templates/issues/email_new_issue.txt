@@ -1,0 +1,10 @@
+Ola!
+
+Estou te mandando este email soh mesmo pra avisar que alguma alma cadastrou
+um novo problema na cidade.
+
+{{ issue }}:
+http://conserte.me/issues/{{ issue.id }}
+
+Abrasss,
+Avisos, THE bot.

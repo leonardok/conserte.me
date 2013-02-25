@@ -1,6 +1,10 @@
 from django.db import models
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
+from django.core.mail import send_mail
+from django.template.loader import get_template
+from django.template import Context
+from django.conf import settings
 import simplejson as json
 import urllib2
 import logging
@@ -71,6 +75,16 @@ class Issue(models.Model):
 		return self.name
 
 
+	def new_issue_email(self):
+		logging.debug('Sending email')
+		plaintext = get_template('issues/email_new_issue.txt')
+
+		context = Context({ 'issue': self})
+		text_content = plaintext.render(context)
+		send_mail('Novo problema cadastrado', text_content, 'avisos@conserte.me',
+				    settings.MANAGERS, fail_silently=False)
+
+
 
 	def save(self, *args, **kwargs):
 		self.name = self.name.capitalize()
@@ -104,3 +118,7 @@ class Issue(models.Model):
 			self.city = c
 		
 		super(Issue, self).save(*args, **kwargs)
+
+		# send email
+		self.new_issue_email()
+

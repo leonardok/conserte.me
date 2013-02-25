@@ -13,7 +13,8 @@ ADMINS = (
     ('Leonardo Korndorfer', 'leokorndorfer@gmail.com'),
 )
 
-MANAGERS = ADMINS
+MANAGERS = ['leokorndorfer@gmail.com', 'cristianobfernandes@gmail.com']
+
 
 DATABASES = {
     'default': {
@@ -26,6 +27,16 @@ DATABASES = {
     }
 }
 
+
+# email settings
+# These are the smtp settings for gmail
+EMAIL_HOST          = 'mail.conserte.me'
+EMAIL_HOST_USER     = 'avisos@conserte.me'
+EMAIL_HOST_PASSWORD = 'Mj?*j!6m'
+DEFAULT_FROM_EMAIL  = 'avisos@conserte.me'
+SERVER_EMAIL        = 'avisos@conserte.me'
+EMAIL_PORT          = 587
+EMAIL_USE_TLS       = True
 
 APPEND_SLASH = True
 
@@ -142,7 +153,13 @@ INSTALLED_APPS = (
 
     # plugins
     'rest_framework',
+
+    # custom comments
+    # 'issue_comments',
 )
+
+# Custom comment application
+# COMMENTS_APP = 'issue_comments'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

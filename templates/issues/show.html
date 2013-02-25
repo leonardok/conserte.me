@@ -19,6 +19,7 @@
 {% endblock %}
 
 {% block content %}
+
       <div class="container content">
         <div class="row">
           <div class="span8">
@@ -40,19 +41,27 @@
         </div>
 
         <!-- new comment -->
+        {% if success %}
+        <div class="alert alert-error" style="display: none">
+          <h4 style="padding-bottom: 10px;">Aten&ccedil;&atilde;o!</h4>
+          <ul id='errors_list'>
+          </ul>
+        </div>
+        {% endif %}
 
 	{% load comments %}
         {% get_comment_form for issue as form %}
         <div class="row">
-	  <div class="span12">
+	  <div class="span6">
 	    <div class="row">
 		{{comment_form_target}}
-            <form action="{% comment_form_target %}" method="post" class="form-horizontal">
+            <form action="{% comment_form_target %}" method="post" class="form-horizontal" id="issue_comment_form">
 	      {{ form.content_type }}
 	      {{ form.object_pk }}
 	      {{ form.timestamp }}
 	      {{ form.security_hash }}
 	      <input type="hidden" name="next" value="/issues/{{issue.id}}" />
+	      <input type="hidden" name="email" value="foo@foo.foo" />
               {% csrf_token %}
 
 	      <div class="span5">
@@ -80,18 +89,16 @@
                   </div>
                 </div>
               </div>
-
-	      <!--div class="span6">
-                <div class="control-group">
-                  <label class="control-label" for="id_comment">comentario:</label>
-                  <div class="controls">
-	            <textarea id="id_comment" class="input-block-level" rows="4" cols="40" name="comment"></textarea><br><br>
-                  </div>
-                </div>
-	      </div-->
-
 	    </form>
 	    </div>
+	  </div>
+
+          <div class="span6">
+            <div class="alert alert-error" style="display: none">
+              <h4 style="padding-bottom: 10px;">Aten&ccedil;&atilde;o!</h4>
+              <ul id='errors_list'>
+              </ul>
+            </div>
 	  </div>
 
           <div class="span12">
@@ -104,4 +111,5 @@
 {% endblock %}
 
 {% block javascripts %}
+    <script src="/assets/js/issues.comments.js"></script>
 {% endblock %}
