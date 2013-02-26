@@ -60,20 +60,31 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h3>Novo Problema</h3>
       </div>
-      <div class="modal-body" style="padding: 40px; padding-top: 20px">
+      <div class="modal-body" style="min-height: 300px; max-height: none; padding: 40px; padding-bottom: 10px; padding-top: 20px">
         <form id="new_problem_form">
-          <div class="alert alert-error" style="display: none">
-            <h4 style="padding-bottom: 10px;">Aten&ccedil;&atilde;o!</h4>
-            <ul id='errors_list'>
-            </ul>
-          </div>
 	<p>Procure cadastrar problemas detalhados. Tente ser específico.</p>
 
-	  <label for="name"><h4>Titulo</h4></label>
-          <input type="text" name="name" id="name" class="span6 ui-widget-content ui-corner-all" />
+	<div class="control-group" id="name_control_group">
+		<label for="name"><h4>Titulo:</h4></label>
+		<span class="help-inline hide" id="name_error"></span>
+		<input type="text" name="name" id="name" class="span6 ui-widget-content ui-corner-all" />
+	</div>
 
-	  <label for="description"><h4>Descricao:</h4></label>
-          <textarea class='ui-widget-content ui-corner-all span6' rows="5" name="description" id="description"></textarea>
+	<div class="control-group" id="email_control_group">
+		<label for="email"><h4>Seu email:</h4></label>
+		<span class="help-inline hide" id="email_error"></span>
+		<input type="text" name="owner_email" id="email" class="span6 ui-widget-content ui-corner-all" />
+		<label class="checkbox left" style="text-align: left">
+			<input type="checkbox" value="" id="" name="owner_receive_email">
+			Notifique-me quanto houver alguma mudança
+		</label>
+	</div>
+
+	<div class="control-group" id="description_control_group">
+		<label for="description"><h4>Descricao:</h4></label>
+		<span class="help-inline hide" id="description_error"></span>
+		<textarea class='ui-widget-content ui-corner-all span6' rows="5" name="description" id="description"></textarea>
+	</div>
 
           <input type="hidden" name="latitude" id="latitude" />
           <input type="hidden" name="longitude" id="longitude" />

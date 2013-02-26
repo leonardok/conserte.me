@@ -2,7 +2,6 @@ var enable_location_query = true;
 var glog_marker = "";
 
 
-
 function init_map(){
 	var map = $('#map_canvas').gmap({ 'mapTypeControl': false, })
 	// executes when ready
@@ -42,9 +41,20 @@ $("#new_problem_message_checkbox").click(function(){
 	}
 });
 
+function remove_errors() {
+	$("#name_control_group").removeClass('error');
+	$("#email_control_group").removeClass('error');
+	$("#description_control_group").removeClass('error');
+
+	$("#name_error").hide();
+	$("#email_error").hide();
+	$("#description_error").hide();
+}
+
 
 $('#janela_novo_problema').on('hidden', function () {
 	$('#map_canvas').gmap('clear', 'markers');
+	remove_errors();
 })
 
 $('#send_new_issue').click(function(){
@@ -54,24 +64,42 @@ $('#send_new_issue').click(function(){
 	var bValid = true;
 	$("#errors_list").text('');
 	if( !$('#name').val() ) {
-		$("#errors_list").append('<li>Nome n&atilde;o pode ser vazio.</li>');
-		$('.alert.alert-error').show();
+		$("#name_control_group").addClass('error');
+		$("#name_error").text('Título não pode ser vazio');
+		$("#name_error").show();
 		bValid = false;
 	}
 	if( $('#name').val().length > 100 ) {
-		$("#errors_list").append('<li>Nome n&atilde;o pode conter mais de 100 caracteres.</li>');
-		$('.alert.alert-error').show();
+		$("#name_control_group").addClass('error');
+		$("#name_error").text('Título não pode ter mais de 100 caracteres');
+		$("#name_error").show();
+		bValid = false;
+	}
+
+	// For now we will let the email to be empty
+	// if( !$('#description').val() ) {
+	// 	$("#email_control_group").addClass('error');
+	// 	$("#email_error").text('Email não pode ser vazio');
+	// 	$("#email_error").show();
+	// 	bValid = false;
+	// }
+	if( $('#description').val().length > 100 ) {
+		$("#email_control_group").addClass('error');
+		$("#email_error").text('Email não pode ter mais de 100 caracteres');
+		$("#email_error").show();
 		bValid = false;
 	}
 
 	if( !$('#description').val() ) {
-		$("#errors_list").append('<li>Descri&ccedil;&atilde;o n&atilde;o pode ser vazio.</li>');
-		$('.alert.alert-error').show();
+		$("#description_control_group").addClass('error');
+		$("#description_error").text('Descrição não pode ser vazio');
+		$("#description_error").show();
 		bValid = false;
 	}
 	if( $('#description').val().length > 1000 ) {
-		$("#errors_list").append('<li>Descri&ccedil;&atilde;o n&atilde;o pode conter mais de 1000 caracteres.</li>');
-		$('.alert.alert-error').show();
+		$("#description_control_group").addClass('error');
+		$("#description_error").text('Descrição não pode ter mais de 1000 caracteres');
+		$("#description_error").show();
 		bValid = false;
 	}
 	if ( !bValid ) {
