@@ -60,6 +60,9 @@ class Issue(models.Model):
 	address = models.CharField(max_length=200, null=True, blank=True)
 	description = models.TextField(null=True, blank=True)
 
+	owner_email = models.CharField(max_length=200, default="", blank=True)
+	owner_receive_email = models.BooleanField(default=True)
+
 	created_at = models.DateTimeField(auto_now=True)
 	updated_at = models.DateTimeField(auto_now=True)
 	

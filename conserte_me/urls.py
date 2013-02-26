@@ -16,6 +16,8 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
 
     url(r'^$', 'conserte_me.views.index', name='home'),
+    url(r'^about/project/$', 'conserte_me.views.about_project', name='about_project'),
+    url(r'^about/us/', 'conserte_me.views.about_us', name='about_us'),
     url(r'^', include('issues.urls', app_name="issues")),
 
     url(r'^comments/', include('django.contrib.comments.urls')),

@@ -58,9 +58,19 @@ $('#send_new_issue').click(function(){
 		$('.alert.alert-error').show();
 		bValid = false;
 	}
+	if( $('#name').val().length > 100 ) {
+		$("#errors_list").append('<li>Nome n&atilde;o pode conter mais de 100 caracteres.</li>');
+		$('.alert.alert-error').show();
+		bValid = false;
+	}
 
 	if( !$('#description').val() ) {
 		$("#errors_list").append('<li>Descri&ccedil;&atilde;o n&atilde;o pode ser vazio.</li>');
+		$('.alert.alert-error').show();
+		bValid = false;
+	}
+	if( $('#description').val().length > 1000 ) {
+		$("#errors_list").append('<li>Descri&ccedil;&atilde;o n&atilde;o pode conter mais de 1000 caracteres.</li>');
 		$('.alert.alert-error').show();
 		bValid = false;
 	}

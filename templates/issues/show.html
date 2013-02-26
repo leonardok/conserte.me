@@ -23,10 +23,10 @@
       <div class="container content">
         <div class="row">
           <div class="span8">
-            <h2>{{issue.name}}</h2>
+            <h2 style="word-wrap: break-word;">{{issue.name}}</h2>
             <h3>Status: </h3> {% if issue.open %}Aberto{% else %}Fechado{% endif %}
             <h3>Descricao</h3>
-            <p>
+            <p style="word-wrap: break-word;">
             {{issue.description}}
             </p>
           </div>
