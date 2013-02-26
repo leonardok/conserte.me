@@ -105,4 +105,5 @@ $('#janela_novo_problema').on('hidden', function () {
 
 $(document).ready(function() {
 	init_map();
+	$('#how_to_mark').modal('show');
 });

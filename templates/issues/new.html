@@ -47,17 +47,24 @@
 {% block content %}
     <div id="map_canvas" class="map fill"> </div>
 
-    <div>
-     <div class="accordion info-panel" id="accordion2">
-       <div class="accordion-group" style="padding: 10px">
-       <h5>Para marcar um problema:</h5>
-       <p>Simplismente clique em qualquer lugar no mapa,
-       um poupup para o cadastro ir&aacute; abrir.</p>
-       </div>
-     </div>
+    <div class="modal hide fade" id="how_to_mark">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Como cadastrar um problema</h3>
+      </div>
+      <div class="modal-body">
+        <p>Para cadastrar um problema é muito facil: basta clicar em qualquer lugar do mapa,
+           depois disso descreva o problema que você encontrou, tentando detalhar ao máximo.
+           Em seguida, envie as informações.</p>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Close</a>
+      </div>
     </div>
 
-    <div class="row" id="spinner-div">
+
+
+
 
     <div id="janela_novo_problema" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-header">
