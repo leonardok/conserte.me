@@ -28,7 +28,7 @@ function init_map(){
 				// do whatever you need with the maker utilizing this variable
 				$('#latitude').val(marker.position.lat());
 				$('#longitude').val(marker.position.lng());
-				$("#dialog-form").dialog( "open" );
+				$('#janela_novo_problema').modal('show')
                   });
                 });
 	});
@@ -98,6 +98,10 @@ $( "#create-user" )
 	.click(function() {
 	$( "#dialog-form" ).dialog( "open" );
 });
+
+$('#janela_novo_problema').on('hidden', function () {
+	$('#map_canvas').gmap('clear', 'markers');
+})
 
 $(document).ready(function() {
 	init_map();

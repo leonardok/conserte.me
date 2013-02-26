@@ -58,6 +58,43 @@
     </div>
 
     <div class="row" id="spinner-div">
+
+    <div id="janela_novo_problema" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Novo Problema</h3>
+      </div>
+      <div class="modal-body">
+        <p>One fine body.</p>
+
+
+        <form>
+          <div class="alert alert-error" style="display: none">
+            <h4 style="padding-bottom: 10px;">Aten&ccedil;&atilde;o!</h4>
+            <ul id='errors_list'>
+            </ul>
+          </div>
+
+          {% csrf_token %}
+          <label for="name">Titulo</label>
+          <input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" />
+
+          <label for="description">Descricao:</label>
+          <textarea class='text ui-widget-content ui-corner-all input-block-level' rows="4" name="description" id="description"></textarea>
+
+          <input type="hidden" name="latitude" id="latitude" />
+          <input type="hidden" name="longitude" id="longitude" />
+        </form>
+
+
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Close</a>
+        <a href="#" class="btn btn-primary">Save changes</a>
+      </div>
+    </div>
+
+
     <div id="dialog-form" title="Novo problema" style="height: 500px; display: none">
       <form id="new-issue-form">
       <fieldset id="new-issue-fieldset">
