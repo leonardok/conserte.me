@@ -20,27 +20,11 @@
         top: 40px; 
         width: 100%; 
         padding: 0px; 
-	margin-bottom:50px;
-      }
-      .info-panel {
-        position: absolute; 
-        background-color: rgba(0, 0, 0, 0.7);
-        color: white;
-        top: 80px; 
-        right: 40px; 
-        z-index: 99; 
-        width: 350px;
-        padding: 20px;
-        -webkit-border-radius: 5px;
+        margin-bottom:50px;
       }
       input.text { margin-bottom:12px; width:95%; padding: .4em; }
-      fieldset { padding:0; border:0; margin-top:5px; height: auto}
+      fieldset { padding:0; border:0; margin-top:0px; height: auto}
       h1 { font-size: 1.2em; margin: .6em 0; }
-      div#users-contain { width: 350px; margin: 20px 0; }
-      div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
-      div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
-      .ui-dialog .ui-state-error { padding: .3em; }
-      #dialog_form.ui-dialog-content { height: 300px }
     </style>
 {% endblock %}
 
@@ -52,13 +36,17 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h3>Como cadastrar um problema</h3>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" style="padding: 40px">
         <p>Para cadastrar um problema é muito facil: basta clicar em qualquer lugar do mapa,
            depois disso descreva o problema que você encontrou, tentando detalhar ao máximo.
-           Em seguida, envie as informações.</p>
+	   <br /><br />Em seguida, envie as informações.</p>
       </div>
       <div class="modal-footer">
-        <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Close</a>
+	<label class="checkbox span3 left" style="text-align: left">
+		<input type="checkbox" value="" id="new_problem_message_checkbox">
+		Não mostrar novamente
+	</label>
+        <a href="#" class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Fechar</a>
       </div>
     </div>
 
@@ -71,58 +59,34 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h3>Novo Problema</h3>
       </div>
-      <div class="modal-body">
-        <p>One fine body.</p>
-
-
-        <form>
+      <div class="modal-body" style="padding: 40px; padding-top: 20px">
+        <form id="new_problem_form">
           <div class="alert alert-error" style="display: none">
             <h4 style="padding-bottom: 10px;">Aten&ccedil;&atilde;o!</h4>
             <ul id='errors_list'>
             </ul>
           </div>
+	<p>Procure cadastrar problemas detalhados. Tente ser específico.</p>
 
-          {% csrf_token %}
-          <label for="name">Titulo</label>
-          <input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" />
+	  <label for="name"><h4>Titulo</h4></label>
+          <input type="text" name="name" id="name" class="span6 ui-widget-content ui-corner-all" />
 
-          <label for="description">Descricao:</label>
-          <textarea class='text ui-widget-content ui-corner-all input-block-level' rows="4" name="description" id="description"></textarea>
+	  <label for="description"><h4>Descricao:</h4></label>
+          <textarea class='ui-widget-content ui-corner-all span6' rows="5" name="description" id="description"></textarea>
 
           <input type="hidden" name="latitude" id="latitude" />
           <input type="hidden" name="longitude" id="longitude" />
+          {% csrf_token %}
         </form>
 
 
       </div>
       <div class="modal-footer">
-        <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Close</a>
-        <a href="#" class="btn btn-primary">Save changes</a>
+        <a href="#" class="btn" data-dismiss="modal" aria-hidden="true" id="cancel_new_issue">Close</a>
+        <a href="#" class="btn btn-primary" id="send_new_issue">Save changes</a>
       </div>
     </div>
 
-
-    <div id="dialog-form" title="Novo problema" style="height: 500px; display: none">
-      <form id="new-issue-form">
-      <fieldset id="new-issue-fieldset">
-        <div class="alert alert-error" style="display: none">
-          <h4 style="padding-bottom: 10px;">Aten&ccedil;&atilde;o!</h4>
-          <ul id='errors_list'>
-          </ul>
-        </div>
-
-        {% csrf_token %}
-        <label for="name">Titulo</label>
-        <input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" />
-
-        <label for="description">Descricao:</label>
-	<textarea class='text ui-widget-content ui-corner-all input-block-level' rows="4" name="description" id="description"></textarea>
-
-        <input type="hidden" name="latitude" id="latitude" />
-        <input type="hidden" name="longitude" id="longitude" />
-      </fieldset>
-      </form>
-    </div>
     </div>
 {% endblock %}
 
