@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base_w_footer.html" %}
 
 
 {% block css %}
@@ -9,6 +9,7 @@
 	#map_canvas_small {
 		width: 100%;
 		height: 200px;
+		height: 0px;
 		padding: 0px;
 		margin-bottom:30px;
 	}
@@ -18,6 +19,8 @@
 	.dl-horizontal dt { width: 100px;}
 	.dl-horizontal dd { margin-left: 120px; margin-right: 20px; }
 	a.btn.btn-success { font-weight:normal; }
+	.form-horizontal .control-label {width: 100px}
+	.form-horizontal .controls { margin-left: 120px; }
 </style>
 {% endblock %}
 
@@ -61,14 +64,11 @@
 			</dl>
 		</div>
 		<div class="span5" style="margin-top: 90px">
-			<!--div class="row">
-				<div class="span5">
-						<div id="map_canvas_small" class="map fill"> </div>
-				</div>
-			</div-->
 			<div class="row">
 				<div class="span5">
 					<img class="issue_photo" src="http://wp.clicrbs.com.br/seuproblema/files/2012/11/01dgolspn16112012.jpg">
+					
+					<!--p class="text-center"><a href="#">Mostrar no mapa</a></p-->
 					<div id="details_summary">
 					<span id="latitude">{{issue.latitude}}</span>
 					<span id="longitude">{{issue.longitude}}</span>
@@ -87,7 +87,6 @@
 		<div class="span12">
 			<hr>
 			<h4>Deixe seu comentario</h4>
-			<button class="btn btn-primary">Comentar</button>
 		</div>
 	</div>
 
@@ -115,20 +114,32 @@
 					<input type="hidden" name="email" value="foo@foo.foo" />
 					{% csrf_token %}
 
-					<div class="span5">
+					<div class="span6">
 						<div class="control-group">
 							<label class="control-label" for="id_name">Nome:</label>
 							<div class="controls">
-								<input id="id_name" type="text" name="name" maxlength="50"><br>
+								<input id="id_name" class="input-block-level" type="text" name="name" maxlength="50"><br>
 							</div>
 						</div>
 						<div class="control-group">
-							<label class="control-label" for="id_comment">comentario:</label>
+							<label class="control-label" for="id_email">Email:</label>
 							<div class="controls">
-								<textarea id="id_comment" class="input-block-level" rows="4" name="comment"></textarea>
+								<input id="id_email" class="input-block-level" type="text" name="email" maxlength="90"><br>
+								<label class="checkbox left" style="padding-top: 5px">
+								<input type="checkbox" value="" id="" name="owner_receive_email">
+								Notifique-me sobre mudanças neste problema
+								</label>
 							</div>
 						</div>
 						<div class="control-group">
+							<label class="control-label" for="id_comment">Comentario:</label>
+							<div class="controls">
+								<textarea id="id_comment" class="input-block-level" rows="3" name="comment"></textarea>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="id_comment">
+							</label>
 							<div class="controls">
 								<button type="submit" class="btn">Enviar</button>
 							</div>
@@ -138,15 +149,27 @@
 			</div>
 		</div>
 
-	<div class="span6">
+	<div class="span5 offset1">
 		<div class="alert alert-error" style="display: none">
 			<h4 style="padding-bottom: 10px;">Aten&ccedil;&atilde;o!</h4>
 			<ul id='errors_list'> </ul>
 		</div>
 	</div>
 
-	<div class="span12"> {% render_comment_list for issue %} </div>
-
+	<div class="span12" style="margin-bottom: 80px">
+		{% get_comment_list for issue as comment_list %}
+		{% for comment in comment_list reversed %}
+		<div class="row comment">
+			<span class="span3 comment_name">
+				<blockquote>
+					<p><b>{{comment.name}}</b></p>
+					<small>{{comment.submit_date}}</small>
+				</blockquote>
+			</span>
+			<span class="span9 comment_comment">{{comment.comment}}</span>
+		</div>
+		{% endfor %}
+	</div>
 
 	</div>
 </div>
@@ -157,5 +180,6 @@
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
     <script type="text/javascript" src="/assets/js/jquery.ui.map.min.js"></script>
     <script type="text/javascript" src="/assets/js/jquery.ui.map.services.js"></script>
+    <script src="/assets/js/issues.comments.js"></script>
     <script src="/assets/js/issues.show.js"></script>
 {% endblock %}
