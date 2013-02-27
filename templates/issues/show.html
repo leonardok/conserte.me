@@ -2,131 +2,154 @@
 
 
 {% block css %}
-    <style type="text/css">
-      html, body {height: 100%; width: 100%}
-      body { width: 100%; }
-	  .fill { width: 100%; height:100%}
-      #map_canvas_small {
-        width: 100%;
-        height: 200px;
-        padding: 0px;
-        margin-bottom:30px;
-      }
-	  .issue_photo { width: 100% }
-      .container.content { padding-top: 20px }
-	  #details_summary {display: none;}
-	  .dl-horizontal dt { width: 100px;}
-	  .dl-horizontal dd { margin-left: 120px; margin-right: 20px; }
-    </style>
+<style type="text/css">
+	html, body {height: 100%; width: 100%}
+	body { width: 100%; }
+	.fill { width: 100%; height:100%}
+	#map_canvas_small {
+		width: 100%;
+		height: 200px;
+		padding: 0px;
+		margin-bottom:30px;
+	}
+	.issue_photo { width: 100% }
+	.container.content { padding-top: 20px }
+	#details_summary {display: none;}
+	.dl-horizontal dt { width: 100px;}
+	.dl-horizontal dd { margin-left: 120px; margin-right: 20px; }
+	a.btn.btn-success { font-weight:normal; }
+</style>
 {% endblock %}
 
-{% block content %}
 
-      <div class="container content">
-        <div class="row">
-          <div class="span7">
+{% block content %}
+<div class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" id="myModal">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h3>Seguir Atualizações</h3>
+	</div>
+	<div class="modal-body">
+		<form id="follow_issue">
+			<p>Para seguir este problema, basta enviar o seu email. Assim que comentários ou 
+			atualizações chegarem, você as receberá por email.</p>
+			<div class="control-group" id="name_control_group" style="margin-top: 20px">
+				<label for="name"><h4>Seu email:</h4></label>
+				<span class="help-inline hide" id="name_error"></span>
+				<input type="text" name="name" id="name" class="span6 ui-widget-content ui-corner-all" />
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancelar</a>
+		<a href="#" class="btn btn-primary">Seguir</a>
+	</div>
+</div>
+
+<div class="container content">
+	<div class="row">
+		<div class="span7">
 			
-            <h2 style="word-wrap: break-word;">{{issue.name}} <button class="btn btn-success">Seguir</button></h2>
+			<h2 style="word-wrap: break-word;">
+				{{issue.name}} 
+				<a href="#myModal" role="button" class="btn btn-success" data-toggle="modal">Seguir</a>
+			</h2>
 			<dl class="dl-horizontal">
 				<dt>Status</dt>
 				<dd>{% if issue.open %}Aberto{% else %}Fechado{% endif %}</dd>
 				<dt>Descrição</dt>
 				<dd>{{issue.description}}</dd>
 			</dl>
-          </div>
-			<div class="span5" style="margin-top: 90px">
-				<!--div class="row">
-					<div class="span5">
-							<div id="map_canvas_small" class="map fill"> </div>
-					</div>
-				</div-->
-				<div class="row">
-					<div class="span5">
-						<img class="issue_photo" src="http://wp.clicrbs.com.br/seuproblema/files/2012/11/01dgolspn16112012.jpg">
-						<div id="details_summary">
-						<span id="latitude">{{issue.latitude}}</span>
-						<span id="longitude">{{issue.longitude}}</span>
-						</div>
-					</div>
-				</div>
-				<div class="row" style="margin-top: 20px">
-					<div class="span5">
-							<div id="map_canvas_small" class="map fill"> </div>
-					</div>
-				</div>
-			</div>
 		</div>
-
-		<div class="row">
-			<div class="span12">
-				<hr>
-				<h4>Deixe seu comentario</h4>
-				<button class="btn btn-primary">Comentar</button>
-			</div>
-		</div>
-
-        <!-- new comment -->
-        {% if success %}
-        <div class="alert alert-error" style="display: none">
-          <h4 style="padding-bottom: 10px;">Aten&ccedil;&atilde;o!</h4>
-          <ul id='errors_list'>
-          </ul>
-        </div>
-        {% endif %}
-
-{% load comments %}
-{% get_comment_form for issue as form %}
-<div class="row">
-	<div class="span6">
-		<div class="row">
-			{{comment_form_target}}
-			<form action="{% comment_form_target %}" method="post" class="form-horizontal" id="issue_comment_form">
-				{{ form.content_type }}
-				{{ form.object_pk }}
-				{{ form.timestamp }}
-				{{ form.security_hash }}
-				<input type="hidden" name="next" value="/issues/{{issue.id}}" />
-				<input type="hidden" name="email" value="foo@foo.foo" />
-				{% csrf_token %}
-
+		<div class="span5" style="margin-top: 90px">
+			<!--div class="row">
 				<div class="span5">
-					<div class="control-group">
-						<label class="control-label" for="id_name">Nome:</label>
-						<div class="controls">
-							<input id="id_name" type="text" name="name" maxlength="50"><br>
-						</div>
-					</div>
-					<div class="control-group">
-						<label class="control-label" for="id_comment">comentario:</label>
-						<div class="controls">
-							<textarea id="id_comment" class="input-block-level" rows="4" name="comment"></textarea>
-						</div>
-					</div>
-					<div class="control-group">
-						<div class="controls">
-							<button type="submit" class="btn">Enviar</button>
-						</div>
+						<div id="map_canvas_small" class="map fill"> </div>
+				</div>
+			</div-->
+			<div class="row">
+				<div class="span5">
+					<img class="issue_photo" src="http://wp.clicrbs.com.br/seuproblema/files/2012/11/01dgolspn16112012.jpg">
+					<div id="details_summary">
+					<span id="latitude">{{issue.latitude}}</span>
+					<span id="longitude">{{issue.longitude}}</span>
 					</div>
 				</div>
-			</form>
+			</div>
+			<div class="row" style="margin-top: 20px">
+				<div class="span5">
+						<div id="map_canvas_small" class="map fill"> </div>
+				</div>
+			</div>
 		</div>
 	</div>
 
-          <div class="span6">
-            <div class="alert alert-error" style="display: none">
-              <h4 style="padding-bottom: 10px;">Aten&ccedil;&atilde;o!</h4>
-              <ul id='errors_list'>
-              </ul>
-            </div>
-	  </div>
+	<div class="row">
+		<div class="span12">
+			<hr>
+			<h4>Deixe seu comentario</h4>
+			<button class="btn btn-primary">Comentar</button>
+		</div>
+	</div>
 
-          <div class="span12">
-	  {% render_comment_list for issue %}
-          </div>
+	<!-- new comment -->
+	{% if success %}
+	<div class="alert alert-error" style="display: none">
+		<h4 style="padding-bottom: 10px;">Aten&ccedil;&atilde;o!</h4>
+		<ul id='errors_list'>
+		</ul>
+	</div>
+	{% endif %}
+
+	{% load comments %}
+	{% get_comment_form for issue as form %}
+	<div class="row">
+		<div class="span6">
+			<div class="row">
+				{{comment_form_target}}
+				<form action="{% comment_form_target %}" method="post" class="form-horizontal" id="issue_comment_form">
+					{{ form.content_type }}
+					{{ form.object_pk }}
+					{{ form.timestamp }}
+					{{ form.security_hash }}
+					<input type="hidden" name="next" value="/issues/{{issue.id}}" />
+					<input type="hidden" name="email" value="foo@foo.foo" />
+					{% csrf_token %}
+
+					<div class="span5">
+						<div class="control-group">
+							<label class="control-label" for="id_name">Nome:</label>
+							<div class="controls">
+								<input id="id_name" type="text" name="name" maxlength="50"><br>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="id_comment">comentario:</label>
+							<div class="controls">
+								<textarea id="id_comment" class="input-block-level" rows="4" name="comment"></textarea>
+							</div>
+						</div>
+						<div class="control-group">
+							<div class="controls">
+								<button type="submit" class="btn">Enviar</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+
+	<div class="span6">
+		<div class="alert alert-error" style="display: none">
+			<h4 style="padding-bottom: 10px;">Aten&ccedil;&atilde;o!</h4>
+			<ul id='errors_list'> </ul>
+		</div>
+	</div>
+
+	<div class="span12"> {% render_comment_list for issue %} </div>
 
 
-        </div>
-      </div>
+	</div>
+</div>
 {% endblock %}
 
 {% block javascripts %}
