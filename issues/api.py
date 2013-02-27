@@ -23,7 +23,6 @@ class JSONResponse(HttpResponse):
 
 
 @csrf_exempt
-
 def add_follower(request):
 	try:
 		data = json.loads(request.raw_post_data)
@@ -37,10 +36,12 @@ def add_follower(request):
 	return JSONResponse("Added follower", status=200)
 
 
+@csrf_exempt
 def issues(request):
 	"""
 	Create a new issue or get the details for one
 	"""
+	logging.debug('####################### Started API issues #######################')
 	if request.method == 'GET':
 		issues = ''
 		try:
