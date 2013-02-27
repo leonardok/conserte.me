@@ -12,4 +12,5 @@ urlpatterns = patterns('issues.views',
 urlpatterns += patterns('issues.api',
     url(r'^api/issues/$', 'issues'),
     url(r'^api/issues/(?P<issue_id>\d+)/$', 'get'),
+    url(r'^api/issues/add_follower/$', 'add_follower'),
 )

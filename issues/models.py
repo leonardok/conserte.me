@@ -55,6 +55,15 @@ class Country(models.Model):
 		return self.name
 
 
+class Follower(models.Model):
+	email = models.CharField(max_length=100, blank=False, null=False)
+	issue = models.ForeignKey('Issue', blank=False, null=False)
+
+	def __unicode__(self):
+		return self.email
+
+
+
 class Issue(models.Model):
 	name = models.CharField(max_length=200)
 	address = models.CharField(max_length=200, null=True, blank=True)
@@ -65,6 +74,8 @@ class Issue(models.Model):
 
 	created_at = models.DateTimeField(auto_now=True)
 	updated_at = models.DateTimeField(auto_now=True)
+
+	page_hits = models.IntegerField(default=0)
 	
 	open = models.BooleanField(default=True)
 
@@ -121,7 +132,4 @@ class Issue(models.Model):
 			self.city = c
 		
 		super(Issue, self).save(*args, **kwargs)
-
-		# send email
-		self.new_issue_email()
 

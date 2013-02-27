@@ -2,7 +2,7 @@ from django.http import HttpResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
-from issues.models import Issue
+from issues.models import Issue, Follower
 from issues.serializers import IssueSerializer
 from django.shortcuts import render
 from django.db.models import Q
@@ -23,6 +23,20 @@ class JSONResponse(HttpResponse):
 
 
 @csrf_exempt
+
+def add_follower(request):
+	try:
+		data = json.loads(request.raw_post_data)
+		logging.debug('Creating follower for issue id:' + str(data['id']) + '; ' + str(data['email']) )
+
+		follower = Follower.objects.create(email=data['email'], issue_id=data['id'])
+		follower.save()
+	except Exception, e:
+		return JSONResponse("Error adding folower to issue: " + str(e), status=400)
+
+	return JSONResponse("Added follower", status=200)
+
+
 def issues(request):
 	"""
 	Create a new issue or get the details for one

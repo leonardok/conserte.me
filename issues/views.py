@@ -22,7 +22,9 @@ def index(request):
 
 def show(request, issue_id):
 	issue = Issue.objects.get(id=issue_id)
-	comments = ''
+	issue.page_hits += 1
+	issue.save()
+
 	return render(request, 'issues/show.html', {'issue': issue})
 	
 
@@ -81,6 +83,9 @@ def create(request):
 		try:
 			logging.debug('Saving issue')
 			issue.save()
+
+			# send email
+			issue.new_issue_email()
 		except:
 			raise Http404
 		
