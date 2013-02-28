@@ -17,7 +17,21 @@ function init_map(){
 }
 
 
+$('#cancel-photo').click(function(){
+	// do not process if this is disabled
+	if ( $('#cancel-photo').hasClass("disabled") ) { return }
+
+	$("#photo-upload-form").show();
+	$('#modal-upload-photo').spin(false);
+});
+
 $('#btn-send-photo').click(function(){
+	// do not process if this is disabled
+	if ( $('#btn-send-photo').hasClass("disabled") ) { return }
+	
+	$('#btn-send-photo').addClass("disabled");
+	$("#photo-upload-form").hide();
+	$('#modal-upload-photo').spin();
 	$("#photo-upload-form").submit();
 });
 

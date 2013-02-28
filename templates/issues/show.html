@@ -22,6 +22,7 @@
 	.form-horizontal .control-label {width: 100px}
 	.form-horizontal .controls { margin-left: 120px; }
 	.pictures { padding-top: 20px; }
+	#modal-upload-photo .modal-body { min-height: 100px; }
 </style>
 {% endblock %}
 
@@ -209,7 +210,7 @@
 
 	</div>
 	<div class="modal-footer">
-		<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancelar</a>
+		<a href="#" class="btn" id="cancel-photo" data-dismiss="modal" aria-hidden="true">Cancelar</a>
 		<a href="#" class="btn btn-primary" id="btn-send-photo">Enviar</a>
 	</div>
 </div>
@@ -241,19 +242,21 @@
 	<script src="http://blueimp.github.com/JavaScript-Load-Image/load-image.min.js"></script>
 	<script type="text/javascript" src="/assets/js/bootstrap-image-gallery.min.js"></script>
 	<script type="text/javascript" src="/assets/js/bootstrap-filestyle-0.1.0.min.js"></script>
+	<script type="text/javascript" src="/assets/js/spin.min.js"></script>
+	<script type="text/javascript" src="/assets/js/jquery.spin.js"></script>
 
     <script type="text/javascript">
-	var gallery = $('#gallery'), url;
-	
+	$(document).ready(function() {
+		var gallery = $('#gallery'), url;
 
-	{% load thumbnail %}
-	{% for photo in issue.photos %}
-	$('<a data-gallery="gallery"/>')
-		.append($('<img>').prop('src', "/{{photo.photo|thumbnail_url:'square'}}"))
-		.prop('href', '/{{photo.photo.url}}')
-		.prop('title', "{{photo.name|thumbnail_url:'big'}}")
-		.appendTo(gallery);
-	{% endfor %}
-
+		{% load thumbnail %}
+		{% for photo in issue.photos %}
+		$('<a data-gallery="gallery"/>')
+			.append($('<img>').prop('src', "/{{photo.photo|thumbnail_url:'square'}}"))
+			.prop('href', '/{{photo.photo.url}}')
+			.prop('title', "{{photo.name|thumbnail_url:'big'}}")
+			.appendTo(gallery);
+		{% endfor %}
+	});
     </script>
 {% endblock %}
