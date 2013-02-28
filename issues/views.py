@@ -108,7 +108,7 @@ def add_photo(request):
 		photo.save()
 
 		# generate url
-		generate_all_aliases(photo.photo, include_global=True)
+		# generate_all_aliases(photo.photo, include_global=True)
 		
 		return redirect('/issues/' + request.POST['issue_id'])
 	else:
