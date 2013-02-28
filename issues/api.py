@@ -2,7 +2,7 @@ from django.http import HttpResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
-from issues.models import Issue, Follower
+from issues.models import Issue, Follower, Photo
 from issues.serializers import IssueSerializer
 from django.shortcuts import render
 from django.db.models import Q
@@ -10,6 +10,8 @@ import logging
 
 # For json
 import simplejson as json
+
+
 
 # Create your views here.
 class JSONResponse(HttpResponse):
@@ -34,6 +36,8 @@ def add_follower(request):
 		return JSONResponse("Error adding folower to issue: " + str(e), status=400)
 
 	return JSONResponse("Added follower", status=200)
+
+
 
 
 @csrf_exempt
@@ -63,19 +67,22 @@ def issues(request):
 		return JSONResponse(serializer.data)
 
 	if request.method == 'POST':
-		logging.debug(request.raw_post_data)
-		logging.debug(json.loads(request.raw_post_data))
+		logging.debug("POST DUMP ---- " + request.raw_post_data )
+		logging.debug("JSON DUMP ---- " + str(json.loads(request.raw_post_data ) ) )
+
 		try:
-			data = json.loads(request.raw_post_data)
+			data = json.loads( str(request.raw_post_data) )
 		except:
 			return JSONResponse("Could not parse JSON", status=400)
+
+		logging.debug("PARSED JSON DUMP ---- " + str(data) )
 			
-		serializer = IssueSerializer(data=data['issue'])
+		serializer = IssueSerializer(data=data["issue"])
 		if serializer.is_valid():
 			serializer.save()
 
-			response = {'issue': serializer.data}
-			return JSONResponse(response, status=201)
+			logging.debug("RESPONSE ---- " + str(serializer.data) )
+			return JSONResponse(serializer.data, status=200)
 		else:
 			return JSONResponse(serializer.errors, status=400)
 

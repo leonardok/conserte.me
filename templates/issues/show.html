@@ -2,25 +2,26 @@
 
 
 {% block css %}
+<link rel="stylesheet" href="/assets/css/bootstrap-image-gallery.min.css">
 <style type="text/css">
 	html, body {height: 100%; width: 100%}
 	body { width: 100%; }
 	.fill { width: 100%; height:100%}
 	#map_canvas_small {
 		width: 100%;
-		height: 200px;
-		height: 0px;
+		height: 600px;
 		padding: 0px;
 		margin-bottom:30px;
 	}
 	.issue_photo { width: 100% }
-	.container.content { padding-top: 20px }
+	.container.content { padding-top: 40px }
 	#details_summary {display: none;}
-	.dl-horizontal dt { width: 100px;}
-	.dl-horizontal dd { margin-left: 120px; margin-right: 20px; }
+	.dl-horizontal dt { width: 100px; margin-top: 20px}
+	.dl-horizontal dd { margin-left: 120px; margin-right: 20px; margin-top: 20px}
 	a.btn.btn-success { font-weight:normal; }
 	.form-horizontal .control-label {width: 100px}
 	.form-horizontal .controls { margin-left: 120px; }
+	.pictures { padding-top: 20px; }
 </style>
 {% endblock %}
 
@@ -48,7 +49,11 @@
 	</div>
 </div>
 
-<div class="container content">
+<div class="container content" >
+	<div id="details_summary">
+	<span id="latitude">{{issue.latitude}}</span>
+	<span id="longitude">{{issue.longitude}}</span>
+	</div>
 	<div class="row">
 		<div class="span7">
 			
@@ -61,125 +66,194 @@
 				<dd>{% if issue.open %}Aberto{% else %}Fechado{% endif %}</dd>
 				<dt>Descrição</dt>
 				<dd>{{issue.description}}</dd>
+				<dt>Fotos</dt>
+				<dd><div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery"></div></dd>
+
+				<dd><a href="#modal-upload-photo" role="button" class="btn" data-toggle="modal">Adicione uma foto</a></dd>
 			</dl>
-		</div>
-		<div class="span5" style="margin-top: 90px">
-			<div class="row">
-				<div class="span5">
-					<img class="issue_photo" src="http://wp.clicrbs.com.br/seuproblema/files/2012/11/01dgolspn16112012.jpg">
-					
-					<!--p class="text-center"><a href="#">Mostrar no mapa</a></p-->
-					<div id="details_summary">
-					<span id="latitude">{{issue.latitude}}</span>
-					<span id="longitude">{{issue.longitude}}</span>
-					</div>
-				</div>
+
+			
+
+
+			<!-- ############################################################### -->
+			<!-- ############################################################### -->
+			<!-- ############################################################### -->
+			<!-- ############################################################### -->
+
+
+
+			<div class="span7">
+				<hr>
+				<h4>Deixe seu comentario</h4>
 			</div>
-			<div class="row" style="margin-top: 20px">
-				<div class="span5">
-						<div id="map_canvas_small" class="map fill"> </div>
-				</div>
+
+			<!-- new comment -->
+			{% if success %}
+			<div class="alert alert-error" style="display: none">
+				<h4 style="padding-bottom: 10px;">Aten&ccedil;&atilde;o!</h4>
+				<ul id='errors_list'>
+				</ul>
 			</div>
-		</div>
-	</div>
+			{% endif %}
 
-	<div class="row">
-		<div class="span12">
-			<hr>
-			<h4>Deixe seu comentario</h4>
-		</div>
-	</div>
 
-	<!-- new comment -->
-	{% if success %}
-	<div class="alert alert-error" style="display: none">
-		<h4 style="padding-bottom: 10px;">Aten&ccedil;&atilde;o!</h4>
-		<ul id='errors_list'>
-		</ul>
-	</div>
-	{% endif %}
 
-	{% load comments %}
-	{% get_comment_form for issue as form %}
-	<div class="row">
-		<div class="span6">
-			<div class="row">
-				{{comment_form_target}}
-				<form action="{% comment_form_target %}" method="post" class="form-horizontal" id="issue_comment_form">
-					{{ form.content_type }}
-					{{ form.object_pk }}
-					{{ form.timestamp }}
-					{{ form.security_hash }}
-					<input type="hidden" name="next" value="/issues/{{issue.id}}" />
-					<input type="hidden" name="email" value="foo@foo.foo" />
-					{% csrf_token %}
 
-					<div class="span6">
-						<div class="control-group">
-							<label class="control-label" for="id_name">Nome:</label>
-							<div class="controls">
-								<input id="id_name" class="input-block-level" type="text" name="name" maxlength="50"><br>
+
+
+			{% load comments %}
+			{% get_comment_form for issue as form %}
+			<div class="span7">
+				<div class="row">
+					{{comment_form_target}}
+					<form action="{% comment_form_target %}" method="post" class="form-horizontal" id="issue_comment_form">
+						{{ form.content_type }}
+						{{ form.object_pk }}
+						{{ form.timestamp }}
+						{{ form.security_hash }}
+						<input type="hidden" name="next" value="/issues/{{issue.id}}" />
+						<input type="hidden" name="email" value="foo@foo.foo" />
+						{% csrf_token %}
+
+						<div class="span6">
+							<div class="control-group">
+								<label class="control-label" for="id_name">Nome:</label>
+								<div class="controls">
+									<input id="id_name" class="input-block-level" type="text" name="name" maxlength="50"><br>
+								</div>
 							</div>
-						</div>
-						<div class="control-group">
-							<label class="control-label" for="id_email">Email:</label>
-							<div class="controls">
-								<input id="id_email" class="input-block-level" type="text" name="email" maxlength="90"><br>
-								<label class="checkbox left" style="padding-top: 5px">
-								<input type="checkbox" value="" id="" name="owner_receive_email">
-								Notifique-me sobre mudanças neste problema
+							<div class="control-group">
+								<label class="control-label" for="id_comment">Comentario:</label>
+								<div class="controls">
+									<textarea id="id_comment" class="input-block-level" rows="3" name="comment"></textarea>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="id_comment">
 								</label>
+								<div class="controls">
+									<button type="submit" class="btn">Enviar</button>
+								</div>
 							</div>
 						</div>
-						<div class="control-group">
-							<label class="control-label" for="id_comment">Comentario:</label>
-							<div class="controls">
-								<textarea id="id_comment" class="input-block-level" rows="3" name="comment"></textarea>
-							</div>
-						</div>
-						<div class="control-group">
-							<label class="control-label" for="id_comment">
-							</label>
-							<div class="controls">
-								<button type="submit" class="btn">Enviar</button>
-							</div>
-						</div>
+					</form>
+				</div>
+			</div>
+
+			<div class="span7"> <hr> </div>
+
+			<div class="span7" style="margin-bottom: 80px; margin-top: 20px;">
+				{% get_comment_list for issue as comment_list %}
+				{% for comment in comment_list reversed %}
+				<div class="row comment" style="margin-bottom: 15px;">
+					<span class="span3 comment_name">
+						<blockquote>
+							<p><b>{{comment.name}}</b></p>
+							<small>{{comment.submit_date}}</small>
+						</blockquote>
+					</span>
+					<div class="span4 comment_comment" style="word-wrap: break-word">
+					{{comment.comment}}
 					</div>
-				</form>
+				</div>
+				{% endfor %}
+			</div>
+			<!-- ############################################################### -->
+			<!-- ############################################################### -->
+			<!-- ############################################################### -->
+			<!-- ############################################################### -->
+
+			<div id="photos_uploaded">
+			</div>
+
+		</div>
+		<div class="span4 offset1">
+			<div class="row" style="margin-top: 0px">
+				<div class="span5" data-spy="affix" data-offset-top="0">
+					<div id="map_canvas_small" class="map fill" style="margin-top: 40px"> </div>
+				</div>
 			</div>
 		</div>
-
-	<div class="span5 offset1">
-		<div class="alert alert-error" style="display: none">
-			<h4 style="padding-bottom: 10px;">Aten&ccedil;&atilde;o!</h4>
-			<ul id='errors_list'> </ul>
-		</div>
 	</div>
 
-	<div class="span12" style="margin-bottom: 80px">
-		{% get_comment_list for issue as comment_list %}
-		{% for comment in comment_list reversed %}
-		<div class="row comment">
-			<span class="span3 comment_name">
-				<blockquote>
-					<p><b>{{comment.name}}</b></p>
-					<small>{{comment.submit_date}}</small>
-				</blockquote>
-			</span>
-			<span class="span9 comment_comment">{{comment.comment}}</span>
-		</div>
-		{% endfor %}
-	</div>
+
 
 	</div>
 </div>
+
+
+
+
+<!-- modal-upload-photo is the modal used to upload a picture -->
+<div id="modal-upload-photo" class="modal hide fade" tabindex="-1">
+	<div class="modal-header">
+		<a class="close" data-dismiss="modal">&times;</a>
+		<h3 class="modal-title">Adicione uma Foto</h3>
+	</div>
+	<div class="modal-body">
+
+		<form class="form-horizontal well" method="POST" action="/issues/add_photo/" id="photo-upload-form" enctype="multipart/form-data">
+			<fieldset>
+			<input type="hidden" name="issue_id" value="{{issue.id}}">
+
+			<div class="control-group">
+				<label class="control-label" for="input01">Default filestyle</label>
+				<div class="controls form-search">
+					<input type="file" class="input-xlarge" name="photo_file" id="input01">
+				</div>
+			</div>
+
+			</fieldset>
+		</form>
+
+
+	</div>
+	<div class="modal-footer">
+		<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancelar</a>
+		<a href="#" class="btn btn-primary" id="btn-send-photo">Enviar</a>
+	</div>
+</div>
+
+
+
+<!-- modal-gallery is the modal dialog used for the image gallery -->
+<div id="modal-gallery" class="modal modal-gallery hide fade" tabindex="-1">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">&times;</a>
+        <h3 class="modal-title"></h3>
+    </div>
+    <div class="modal-body"><div class="modal-image"></div></div>
+	<div class="modal-footer">
+		<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Fechar</a>
+	</div>
+</div>
+
+
 {% endblock %}
 
 {% block javascripts %}
-    <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
-    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
-    <script type="text/javascript" src="/assets/js/jquery.ui.map.min.js"></script>
-    <script type="text/javascript" src="/assets/js/jquery.ui.map.services.js"></script>
-    <script src="/assets/js/issues.comments.js"></script>
-    <script src="/assets/js/issues.show.js"></script>
+	<script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+	<script type="text/javascript" src="/assets/js/jquery.ui.map.min.js"></script>
+	<script type="text/javascript" src="/assets/js/jquery.ui.map.services.js"></script>
+	<script type="text/javascript" src="/assets/js/issues.comments.js"></script>
+	<script type="text/javascript" src="/assets/js/issues.show.js"></script>
+	<script src="http://blueimp.github.com/JavaScript-Load-Image/load-image.min.js"></script>
+	<script type="text/javascript" src="/assets/js/bootstrap-image-gallery.min.js"></script>
+	<script type="text/javascript" src="/assets/js/bootstrap-filestyle-0.1.0.min.js"></script>
+
+    <script type="text/javascript">
+	var gallery = $('#gallery'), url;
+	
+
+	{% load thumbnail %}
+	{% for photo in issue.photos %}
+	$('<a data-gallery="gallery"/>')
+		.append($('<img>').prop('src', "/{{photo.photo|thumbnail_url:'square'}}"))
+		.prop('href', '/{{photo.photo.url}}')
+		.prop('title', "{{photo.name|thumbnail_url:'big'}}")
+		.appendTo(gallery);
+	{% endfor %}
+
+    </script>
 {% endblock %}

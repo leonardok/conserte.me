@@ -83,7 +83,7 @@ $('#send_new_issue').click(function(){
 	// 	$("#email_error").show();
 	// 	bValid = false;
 	// }
-	if( $('#description').val().length > 100 ) {
+	if( $('#email').val().length > 100 ) {
 		$("#email_control_group").addClass('error');
 		$("#email_error").text('Email não pode ter mais de 100 caracteres');
 		$("#email_error").show();
@@ -115,20 +115,26 @@ $('#send_new_issue').click(function(){
 	$('#new_problem_form').hide();
 	$('.modal-body').spin();
 
-	data_to_post = '{ "issue": { "name": "'+$('#name').val()+'", "description": "'
-		+ $('#description').val()+'", "latitude": "' + $('#latitude').val()
-		+ '", "longitude": "' + $('#longitude').val() + '" } }';
+	data_to_post = { 
+		"issue": {
+			"name": $('#name').val(),
+			"description": $('#description').val(),
+			"latitude": $('#latitude').val(),
+			"longitude": $('#longitude').val()
+		}
+	};
 
 	$.ajax ({
-		type: "POST",
-		//the url where you want to sent the userName and password to
+		type: 'POST',
 		url: '/api/issues/',
-		dataType: 'json',
+		contentType: 'application/json; charset=utf-8',
+		dataType: 'text',
 		async: true,
 
-		data: data_to_post,
+		data: $.toJSON(data_to_post),
 		success: function (data) {
-			url = "/issues/" + data.issue.id;
+			url = "/issues/";
+			url += $.parseJSON(data).id;
 			$(location).attr('href',url);
 		}
 	}).error(function(){

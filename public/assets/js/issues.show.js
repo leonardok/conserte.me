@@ -16,6 +16,11 @@ function init_map(){
 	});
 }
 
+
+$('#btn-send-photo').click(function(){
+	$("#photo-upload-form").submit();
+});
+
 $(document).ready(function() {
 	init_map();
 });

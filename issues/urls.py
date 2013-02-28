@@ -7,6 +7,7 @@ urlpatterns = patterns('issues.views',
     url(r'^issues/(?P<issue_id>\d+)/$', 'show', name="issue_show"),
     url(r'^issues/$', 'index'),
     url(r'^issues/([A-Z]{2})/([A-Z]{2})/([A-Za-z]+)/$', 'search'),
+    url(r'^issues/add_photo/$', 'add_photo'),
 )
 
 urlpatterns += patterns('issues.api',

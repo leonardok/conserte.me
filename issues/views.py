@@ -3,11 +3,12 @@ from django.http import HttpResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
-from issues.models import Issue, City, State, Country
+from issues.models import Issue, City, State, Country, Photo
 from issues.serializers import IssueSerializer
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from easy_thumbnails.files import get_thumbnailer
 import logging
 import re
 
@@ -25,7 +26,10 @@ def show(request, issue_id):
 	issue.page_hits += 1
 	issue.save()
 
-	return render(request, 'issues/show.html', {'issue': issue})
+	issue.photos = issue.photo_set.all()
+	logging.debug(issue)
+
+	return render(request, 'issues/show.html', {'issue': issue })
 	
 
 def search(request, country, state, city):
@@ -90,6 +94,23 @@ def create(request):
 			raise Http404
 		
 		return render(request, 'issues/show.html', {'issue': issue})
+
+
+
+@csrf_exempt
+def add_photo(request):
+	logging.debug('ADD PHOTO')
+
+	if request.method == 'POST':
+		logging.debug(request.POST)
+		logging.debug(request.FILES['photo_file'])
+		photo = Photo.objects.create(photo = request.FILES['photo_file'], issue_id=request.POST['issue_id'])
+		photo.save()
+
+		
+		return redirect('/issues/' + request.POST['issue_id'])
+	else:
+		return render(request, 'issues/show.html', {'issue': Issue.objects.get(id=request.POST['issue_id']), 'error': 'Some error occured'})
 
 
 

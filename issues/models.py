@@ -63,6 +63,15 @@ class Follower(models.Model):
 		return self.email
 
 
+class Photo(models.Model):
+	name = models.CharField(max_length=100, blank=False, null=False)
+	issue = models.ForeignKey('Issue', blank=False, null=False)
+	photo = models.FileField(upload_to='issue_pictures/%Y/%m/%d')
+
+	def __unicode__(self):
+		return self.name
+
+
 
 class Issue(models.Model):
 	name = models.CharField(max_length=200)
