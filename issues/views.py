@@ -9,6 +9,8 @@ from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from easy_thumbnails.files import get_thumbnailer
+from easy_thumbnails.signals import saved_file
+from easy_thumbnails.signal_handlers import generate_aliases_global
 import logging
 import re
 
@@ -107,6 +109,8 @@ def add_photo(request):
 		photo = Photo.objects.create(photo = request.FILES['photo_file'], issue_id=request.POST['issue_id'])
 		photo.save()
 
+		# generate url
+		saved_file.connect(generate_aliases_global)
 		
 		return redirect('/issues/' + request.POST['issue_id'])
 	else:
