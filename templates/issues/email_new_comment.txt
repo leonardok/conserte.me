@@ -1,0 +1,18 @@
+Ola!
+
+We've got a comment!! E parece ser dos bueno!
+O comentario foi feito para o problema "{{ content_object.name|safe }}", e diz o seguinte:
+
+Para ajustar a moderação para este comentario vá para:
+http://concerte.me/admin/comments/comment/{{comment.id|safe}}
+
+
+#### Usuário ####
+{{ comment.user_name|safe }}
+
+#### Contiudo ####
+{{ comment.comment|safe }}
+
+
+Abrasss,
+Avisos, THE bot.

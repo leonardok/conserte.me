@@ -15,7 +15,7 @@ import re
 # Create your views here.
 
 def index(request):
-	issues = Issue.objects.all()
+	issues = Issue.objects.all().filter(is_public=True)
 	logging.debug(issues)
 	return render(request, 'issues/index.html', {'issues': issues})
 
@@ -26,7 +26,7 @@ def show(request, issue_id):
 	issue.page_hits += 1
 	issue.save()
 
-	issue.photos = issue.photo_set.all()
+	issue.photos = issue.photo_set.all().filter(is_public=True)
 	logging.debug(issue)
 
 	return render(request, 'issues/show.html', {'issue': issue })
@@ -40,7 +40,7 @@ def search(request, country, state, city):
 	issues = Issue.objects.none()
 
 	try:
-		issue_objects = Issue.objects.filter( city= City.objects.get( name=city_normal, state= State.objects.get( name=state, country= Country.objects.get(name=country) ) ) )
+		issue_objects = Issue.objects.filter( city= City.objects.get( name=city_normal, state= State.objects.get( name=state, country= Country.objects.get(name=country) ) ), is_public=True )
 		logging.debug (issue_objects)
 
 		paginator = Paginator(issue_objects, 20)
@@ -107,9 +107,6 @@ def add_photo(request):
 		photo = Photo.objects.create(photo = request.FILES['photo_file'], issue_id=request.POST['issue_id'])
 		photo.save()
 
-		# generate url
-		# generate_all_aliases(photo.photo, include_global=True)
-		
 		return redirect('/issues/' + request.POST['issue_id'])
 	else:
 		return render(request, 'issues/show.html', {'issue': Issue.objects.get(id=request.POST['issue_id']), 'error': 'Some error occured'})

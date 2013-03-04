@@ -6,6 +6,7 @@ from issues.models import Issue, Follower, Photo
 from issues.serializers import IssueSerializer
 from django.shortcuts import render
 from django.db.models import Q
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 import logging
 
 # For json
@@ -26,13 +27,27 @@ class JSONResponse(HttpResponse):
 
 @csrf_exempt
 def add_follower(request):
+	response = {  "id": 1, "error": "Error adding folower to issue: exists" }
 	try:
-		data = json.loads(request.raw_post_data)
-		logging.debug('Creating follower for issue id:' + str(data['id']) + '; ' + str(data['email']) )
+		data = json.loads( str(request.raw_post_data) )
 
-		follower = Follower.objects.create(email=data['email'], issue_id=data['id'])
+		Follower.objects.get(email=data['email'], issue_id=data['issue_id'])
+
+		logging.debug( 'Return error: found' )
+		return JSONResponse( response, status=400)
+
+	# ERRORS THAT CAN OCCUR
+	except MultipleObjectsReturned:
+		logging.debug( 'Return error: Multiple Found' )
+		return JSONResponse( response, status=400)
+
+	except ObjectDoesNotExist:
+		logging.debug('Creating follower for issue id:' + str(data['issue_id']) + '; ' + str(data['email']) )
+		follower = Follower.objects.create(email=data['email'], issue_id=data['issue_id'])
 		follower.save()
+
 	except Exception, e:
+		logging.debug( str(e) )
 		return JSONResponse("Error adding folower to issue: " + str(e), status=400)
 
 	return JSONResponse("Added follower", status=200)

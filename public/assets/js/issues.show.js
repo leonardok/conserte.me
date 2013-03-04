@@ -35,6 +35,98 @@ $('#btn-send-photo').click(function(){
 	$("#photo-upload-form").submit();
 });
 
-$(document).ready(function() {
-	init_map();
+
+function clean_follow_issue_form(){
+	$('#modal-follow-issue').spin(false);
+	$('#btn-follow-issue').removeClass('disabled');
+	$('#btn-cancel-follow-issue').removeClass('disabled');
+	$('#modal-follow-issue').modal('hide');
+
+	$("#form_follow_issue").show();
+	$('#follower_email').val('');
+	$('#help-follower-invalid-email').hide();
+	$('#name_control_group').removeClass('error');
+}
+
+function add_error_to_follow_issue_form(){
+	$('#name_control_group').addClass('error');
+	$('#help-follower-invalid-email').show();
+}
+
+function add_follower_success(){
+	clean_follow_issue_form();
+
+	$('#page-alert-success .text').text('Seguidor adicionado!');
+	$('#page-alert-success').show();
+}
+
+function add_follower_error(){
+	clean_follow_issue_form();
+
+	$('#page-alert-error').show();
+}
+
+
+function submit_issue_follower(){
+	// do not process if this is disabled
+	if ( $('#btn-follow-issue').hasClass("disabled") ) { return }
+
+	valid = true;
+	var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (re.test($('#follower_email').val()) == false) valid = false;
+	if ($('#follower_email').val().length < 1) valid = false;
+
+	if (valid == false){
+		add_error_to_follow_issue_form();
+		return false;
+	}
+	
+	$('#page-alert-success').hide();
+	$('#page-alert-error').hide();
+	$("#form_follow_issue").hide();
+	$('#modal-follow-issue').spin();
+
+	$('#btn-follow-issue').addClass("disabled");
+	$('#btn-cancel-follow-issue').addClass("disabled");
+
+	// $("#form_follow_issue").submit();
+
+	data_to_post = { 
+		"email": $('#follower_email').val(),
+		"issue_id": $('#issue_id').val(),
+	};
+
+	$.ajax ({
+		type: 'POST',
+		url: '/api/issues/add_follower/',
+		contentType: 'application/json; charset=utf-8',
+		dataType: 'text',
+		async: true,
+
+		data: $.toJSON(data_to_post),
+		success: function (data) { add_follower_success(); }
+	}).error(function(data){
+		response = $.parseJSON(data.responseText);
+
+		if (response.id == 1) { $('#page-alert-error .text').text('Seguidor não pode ser adicionado: já é seguidor!'); }
+		else { $('#page-alert-error .text').text('Seguidor não pode ser adicionado: um erro ocorreu!'); }
+
+		add_follower_error();
+	});
+
+}
+
+
+$('#btn-cancel-follow-issue').click(function(){
+	// do not process if this is disabled
+	if ( $('#btn-follow-issue').hasClass("disabled") ) { return }
+
+	clean_follow_issue_form();
+	$('#page-alert-error').hide();
+	$('#page-alert-success').hide();
 });
+
+$('#btn-follow-issue').click(function(){ submit_issue_follower(); }); 
+$('#form_follow_issue').submit(function(){ submit_issue_follower(); return false; });
+
+$(document).ready(function() { init_map(); });

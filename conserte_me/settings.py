@@ -135,6 +135,9 @@ TEMPLATE_DIRS = (
     '/home/conserte_me/website/templates',
 )
 
+# TEMPLATE_CONTEXT_PROCESSORS = 'django.contrib.messages.context_processors.messages'
+MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',

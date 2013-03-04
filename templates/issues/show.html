@@ -23,30 +23,33 @@
 	.form-horizontal .controls { margin-left: 120px; }
 	.pictures { padding-top: 20px; }
 	#modal-upload-photo .modal-body { min-height: 100px; }
+	#modal-follow-issue .modal-body { min-height: 70px; }
+	.alert { margin-top: 20px;}
 </style>
 {% endblock %}
 
 
 {% block content %}
-<div class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" id="myModal">
+<div class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" id="modal-follow-issue">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		<h3>Seguir Atualizações</h3>
 	</div>
 	<div class="modal-body">
-		<form id="follow_issue">
+		<form id="form_follow_issue" action="/api/issues/add_follower/">
 			<p>Para seguir este problema, basta enviar o seu email. Assim que comentários ou 
 			atualizações chegarem, você as receberá por email.</p>
 			<div class="control-group" id="name_control_group" style="margin-top: 20px">
-				<label for="name"><h4>Seu email:</h4></label>
+				<label for="follower_email"><h4>Seu email:</h4></label>
 				<span class="help-inline hide" id="name_error"></span>
-				<input type="text" name="name" id="name" class="span6 ui-widget-content ui-corner-all" />
+				<input type="text" name="email" id="follower_email" class="span6 ui-widget-content ui-corner-all" /><br>
+				<span class="hide help-inline" id="help-follower-invalid-email">Email inválido</span>
 			</div>
 		</form>
 	</div>
 	<div class="modal-footer">
-		<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancelar</a>
-		<a href="#" class="btn btn-primary">Seguir</a>
+		<a href="#" class="btn" id="btn-cancel-follow-issue" data-dismiss="modal" aria-hidden="true">Cancelar</a>
+		<a href="#" class="btn btn-primary" id="btn-follow-issue">Seguir</a>
 	</div>
 </div>
 
@@ -57,10 +60,34 @@
 	</div>
 	<div class="row">
 		<div class="span7">
+			{% if not issue.is_visible %}
+			<div class="alert alert-warning" id="page-alert-success">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<span class="text">Este problema ainda não irá aparecer nas listagens pois está aguardando
+					a sua liberação.  Isto é necessário para garantir a consistência das informações contidas neste site.
+				</span>
+			</div>
+			{% endif %}
+			<div class="alert hide alert-success" id="page-alert-success">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<span class="text"></span>
+			</div>
+			<div class="alert hide alert-error" id="page-alert-error">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<span class="text"></span>
+			</div>
+			{% if messages %}
+			{% for message in messages %}
+			<div class="alert alert-{{message.tags}}" id="">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<span class="text">{{message}}</span>
+			</div>
+			{% endfor %}
+			{% endif %}
 			
 			<h2 style="word-wrap: break-word;">
 				{{issue.name}} 
-				<a href="#myModal" role="button" class="btn btn-success" data-toggle="modal">Seguir</a>
+				<a href="#modal-follow-issue" role="button" class="btn btn-success" data-toggle="modal">Seguir</a>
 			</h2>
 			<dl class="dl-horizontal">
 				<dt>Status</dt>
@@ -195,7 +222,7 @@
 
 		<form class="form-horizontal well" method="POST" action="/issues/add_photo/" id="photo-upload-form" enctype="multipart/form-data">
 			<fieldset>
-			<input type="hidden" name="issue_id" value="{{issue.id}}">
+			<input type="hidden" id="issue_id" name="issue_id" value="{{issue.id}}">
 
 			<div class="control-group">
 				<label class="control-label" for="input01">Default filestyle</label>
@@ -244,6 +271,7 @@
 	<script type="text/javascript" src="/assets/js/bootstrap-filestyle-0.1.0.min.js"></script>
 	<script type="text/javascript" src="/assets/js/spin.min.js"></script>
 	<script type="text/javascript" src="/assets/js/jquery.spin.js"></script>
+    <script type="text/javascript" src="/assets/js/jquery.json-2.4.min.js"></script>
 
     <script type="text/javascript">
 	$(document).ready(function() {

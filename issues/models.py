@@ -5,6 +5,8 @@ from django.core.mail import send_mail
 from django.template.loader import get_template
 from django.template import Context
 from django.conf import settings
+from django.contrib.comments.moderation import CommentModerator, moderator
+from django.contrib import messages
 import simplejson as json
 import urllib2
 import logging
@@ -23,6 +25,8 @@ class Comment(models.Model):
 	name = models.CharField(max_length=200)
 	email = models.CharField(max_length=200)
 	comment = models.TextField()
+
+	is_public = models.BooleanField(default=False)
 
 	issue = models.ForeignKey('Issue', blank=True, null=True)
 
@@ -68,9 +72,30 @@ class Photo(models.Model):
 	issue = models.ForeignKey('Issue', blank=False, null=False)
 	photo = models.FileField(upload_to='issue_pictures/%Y/%m/%d')
 
+	is_public = models.BooleanField(default=False)
+
 	def __unicode__(self):
 		return self.name
 
+
+class IssueCommentModerator(CommentModerator):
+	email_notification = True
+	enable_field = 'enable_comments'
+	auto_moderate_field = 'created_at'
+	moderate_after = 0
+
+	def email(self, comment, content_object, request):
+		logging.debug('################  Sending comment modetation email  ################')
+
+		plaintext = get_template('issues/email_new_comment.txt')
+
+		context = Context({ 'comment': comment, 'content_object': content_object })
+		text_content = plaintext.render(context)
+		send_mail('Novo comentario cadastrado', text_content, 'avisos@conserte.me',
+				    settings.MANAGERS, fail_silently=False)
+
+		messages.success(request, u"Coment\u00E1rio enviado com sucesso.")
+		return True
 
 
 class Issue(models.Model):
@@ -86,7 +111,11 @@ class Issue(models.Model):
 
 	page_hits = models.IntegerField(default=0)
 	
-	open = models.BooleanField(default=True)
+	is_public = models.BooleanField(default=False)
+	status = models.BooleanField(default=True)
+
+	# Comment moderation stuff
+	enable_comments = models.BooleanField(default=True)
 
 	latitude  = models.DecimalField(max_digits=10, decimal_places=5, null=True, blank=True)
 	longitude = models.DecimalField(max_digits=10, decimal_places=5, null=True, blank=True)
@@ -106,6 +135,7 @@ class Issue(models.Model):
 		text_content = plaintext.render(context)
 		send_mail('Novo problema cadastrado', text_content, 'avisos@conserte.me',
 				    settings.MANAGERS, fail_silently=False)
+
 
 
 
@@ -142,3 +172,5 @@ class Issue(models.Model):
 		
 		super(Issue, self).save(*args, **kwargs)
 
+
+moderator.register(Issue, IssueCommentModerator)
