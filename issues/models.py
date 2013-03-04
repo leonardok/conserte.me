@@ -94,7 +94,7 @@ class IssueCommentModerator(CommentModerator):
 		send_mail('Novo comentario cadastrado', text_content, 'avisos@conserte.me',
 				    settings.MANAGERS, fail_silently=False)
 
-		messages.success(request, u"Coment\u00E1rio enviado com sucesso.")
+		messages.success(request, u"Coment\u00E1rio enviado com sucesso. Aguarde a libera\u00E7\u00E3o.")
 		return True
 
 
