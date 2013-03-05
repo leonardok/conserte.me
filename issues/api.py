@@ -7,6 +7,7 @@ from issues.serializers import IssueSerializer
 from django.shortcuts import render
 from django.db.models import Q
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
+from django.utils.encoding import smart_text
 import logging
 
 # For json
@@ -82,12 +83,15 @@ def issues(request):
 		return JSONResponse(serializer.data)
 
 	if request.method == 'POST':
-		logging.debug("POST DUMP ---- " + request.raw_post_data )
+		logging.debug("POST DUMP ---- " + str(request.encoding) + " -- " + request.raw_post_data )
 		logging.debug("JSON DUMP ---- " + str(json.loads(request.raw_post_data ) ) )
 
 		try:
+			# s = smart_text(request.raw_post_data, encoding='utf-8', strings_only=False, errors='strict')
+			# data = json.loads( s )
 			data = json.loads( str(request.raw_post_data) )
-		except:
+		except Exception, e:
+			logging.debug("ERROR: " + str(e) )
 			return JSONResponse("Could not parse JSON", status=400)
 
 		logging.debug("PARSED JSON DUMP ---- " + str(data) )

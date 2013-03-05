@@ -31,20 +31,20 @@
 {% block content %}
 #modal-follow-issue.modal.hide.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
 	.modal-header
-		%button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} ×
-		%h3 Seguir Atualizações
+		%button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} &times;
+		%h3 Seguir Atualiza&ccedil;&otilde;es
 	.modal-body
 		%form#form_follow_issue{:action => "/api/issues/add_follower/"}
 			%p
-				Para seguir este problema, basta enviar o seu email. Assim que comentários ou
-				atualizações chegarem, você as receberá por email.
+				Para seguir este problema, basta enviar o seu email. Assim que coment&aacute;rios ou
+				atualiza&ccedil;&otilde;es chegarem, voc&ecirc; as receber&aacute; por email.
 			#name_control_group.control-group{:style => "margin-top: 20px"}
 				%label{:for => "follower_email"}/
 				%h4 Seu email:
 				%span#name_error.help-inline.hide
 				%input#follower_email.span6.ui-widget-content.ui-corner-all{:name => "email", :type => "text"}/
 				%br/
-				%span#help-follower-invalid-email.hide.help-inline Email inválido
+				%span#help-follower-invalid-email.hide.help-inline Email inv&aacute;lido
 	.modal-footer
 		%a#btn-cancel-follow-issue.btn{"aria-hidden" => "true", "data-dismiss" => "modal", :href => "#"} Cancelar
 		%a#btn-follow-issue.btn.btn-primary{:href => "#"} Seguir
@@ -56,21 +56,21 @@
 		.span7
 			{% if not issue.is_visible %}
 			#page-alert-success.alert.alert-warning
-				%button.close{"data-dismiss" => "alert", :type => "button"} ×
+				%button.close{"data-dismiss" => "alert", :type => "button"} &times;
 				%span.text
-					Este problema ainda não irá aparecer nas listagens pois está aguardando
-					a sua liberação.	Isto é necessário para garantir a consistência das informações contidas neste site.
+					Este problema ainda n&atilde;o ir&aacute; aparecer nas listagens pois est&aacute; aguardando
+					a sua libera&ccedil;&atilde;o.	Isto &eacute; necess&aacute;rio para garantir a consist&ecirc;ncia das informa&ccedil;&otilde;es contidas neste site.
 			{% endif %}
 			#page-alert-success.alert.hide.alert-success
-				%button.close{"data-dismiss" => "alert", :type => "button"} ×
+				%button.close{"data-dismiss" => "alert", :type => "button"} &times;
 				%span.text
 			#page-alert-error.alert.hide.alert-error
-				%button.close{"data-dismiss" => "alert", :type => "button"} ×
+				%button.close{"data-dismiss" => "alert", :type => "button"} &times;
 				%span.text
 			{% if messages %}
 			{% for message in messages %}
 			.alert{:class => "alert-{{message.tags}}", :id => ""}
-				%button.close{"data-dismiss" => "alert", :type => "button"} ×
+				%button.close{"data-dismiss" => "alert", :type => "button"} &times;
 				%span.text {{message}}
 			{% endfor %}
 			{% endif %}
@@ -80,7 +80,7 @@
 			%dl.dl-horizontal
 				%dt Status
 				%dd {% if issue.open %}Aberto{% else %}Fechado{% endif %}
-				%dt Descrição
+				%dt Descri&ccedil;&atilde;o
 				%dd {{issue.description}}
 				%dt Fotos
 				%dd
@@ -97,7 +97,7 @@
 			/ new comment
 			{% if success %}
 			.alert.alert-error{:style => "display: none"}
-				%h4{:style => "padding-bottom: 10px;"} Atenção!
+				%h4{:style => "padding-bottom: 10px;"} Aten&ccedil;&atilde;o!
 				%ul#errors_list
 			{% endif %}
 			
@@ -159,7 +159,7 @@
 / modal-upload-photo is the modal used to upload a picture
 #modal-upload-photo.modal.hide.fade{:tabindex => "-1"}
 	.modal-header
-		%a.close{"data-dismiss" => "modal"} ×
+		%a.close{"data-dismiss" => "modal"} &times;
 		%h3.modal-title Adicione uma Foto
 	.modal-body
 		%form#photo-upload-form.form-horizontal.well{:action => "/issues/add_photo/", :enctype => "multipart/form-data", :method => "POST"}
@@ -175,7 +175,7 @@
 / modal-gallery is the modal dialog used for the image gallery
 #modal-gallery.modal.modal-gallery.hide.fade{:tabindex => "-1"}
 	.modal-header
-		%a.close{"data-dismiss" => "modal"} ×
+		%a.close{"data-dismiss" => "modal"} &times;
 		%h3.modal-title
 	.modal-body
 		.modal-image

@@ -140,8 +140,15 @@ class Issue(models.Model):
 
 
 	def save(self, *args, **kwargs):
-		self.name = self.name.capitalize()
-		self.description = str(self.description).capitalize()
+		try:
+			self.name = self.name.capitalize()
+		except:
+			logging.debug("Cannot capitalize(): self.name")
+
+		try:
+			self.description = str(self.description).capitalize()
+		except:
+			logging.debug("Cannot capitalize() self.description")
 
 		if self.latitude and self.longitude:
 			url = "http://maps.googleapis.com/maps/api/geocode/json?sensor=false&latlng=" + str(self.latitude) + "," + str(self.longitude)

@@ -127,14 +127,13 @@ $('#send_new_issue').click(function(){
 	$.ajax ({
 		type: 'POST',
 		url: '/api/issues/',
-		contentType: 'application/json; charset=utf-8',
-		dataType: 'text',
+		dataType: 'json',
 		async: true,
 
 		data: $.toJSON(data_to_post),
 		success: function (data) {
 			url = "/issues/";
-			url += $.parseJSON(data).id;
+			url += data.id;
 			$(location).attr('href',url);
 		}
 	}).error(function(){
