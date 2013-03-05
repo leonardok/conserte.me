@@ -3,56 +3,56 @@
 
 {% block css %}
 :css
-  table { table-layout: fixed; }
-  td.ellipsis-overflow { height: 25px; white-space:nowrap; overflow: hidden; text-overflow: ellipsis; }
-  {% endblock %}
+	table { table-layout: fixed; }
+	td.ellipsis-overflow { height: 25px; white-space:nowrap; overflow: hidden; text-overflow: ellipsis; }
+	{% endblock %}
 
 
 {% block content %}
 .container{:style => "margin-top: 20px"}
-  .row
-    {% if issues %}
-    %table.table-striped.span12
-      %thead
-        %tr
-          %th.span3 Titulo
-          %th.span9 Descricao
-      %tbody
-        {% for issue in issues %}
-        %tr
-          %td.ellipsis-overflow
-            %a{:href => "{% url issue_show issue.id %}"} 
-          %td.ellipsis-overflow 
-        {% endfor %}
-  .row{:style => "margin-top: 20px;"}
-    .pagination.pagination-centered
-      %ul
-        {% if issues.has_previous %}
-        %li
-          %a{:href => "?page="} Prev
-        {% else %}
-        %li.disabled
-          %a{:href => "#"} Prev
-        {% endif %}
-        
-        {% for counter in issues.paginator.page_range %}
-        {% if counter == issues.number %}
-        %li.active
-          %a{:href => "#"} 
-        {% else %}
-        %li
-          %a{:href => "?page="} 
-        {% endif %}
-        {% endfor %}
-        
-        {% if issues.has_next %}
-        %li
-          %a{:href => "?page="} Next
-        {% else %}
-        %li.disabled
-          %a{:href => "#"} Next
-        {% endif %}
-    {% else %}
-    Nao existem pontos cadastrados.
-    {% endif %}
+	.row
+		{% if issues %}
+		%table.table-striped.span12
+			%thead
+				%tr
+					%th.span3 Titulo
+					%th.span9 Descricao
+			%tbody
+				{% for issue in issues %}
+				%tr
+					%td.ellipsis-overflow
+						%a{:href => "{% url issue_show issue.id %}"} 
+					%td.ellipsis-overflow 
+				{% endfor %}
+	.row{:style => "margin-top: 20px;"}
+		.pagination.pagination-centered
+			%ul
+				{% if issues.has_previous %}
+				%li
+					%a{:href => "?page="} Prev
+				{% else %}
+				%li.disabled
+					%a{:href => "#"} Prev
+				{% endif %}
+				
+				{% for counter in issues.paginator.page_range %}
+				{% if counter == issues.number %}
+				%li.active
+					%a{:href => "#"} 
+				{% else %}
+				%li
+					%a{:href => "?page="} 
+				{% endif %}
+				{% endfor %}
+				
+				{% if issues.has_next %}
+				%li
+					%a{:href => "?page="} Next
+				{% else %}
+				%li.disabled
+					%a{:href => "#"} Next
+				{% endif %}
+		{% else %}
+		Nao existem pontos cadastrados.
+		{% endif %}
 {% endblock %}
