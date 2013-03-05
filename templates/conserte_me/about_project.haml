@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block css %}
+:css
+  .jumbotron {
+    margin: 60px 0;
+    text-align: center;
+  }
+  .jumbotron h1 {
+    font-size: 72px;
+    line-height: 1;
+  }
+  .jumbotron .btn {
+    font-size: 21px;
+    padding: 14px 24px;
+  }
+  
+  /* Supporting marketing content */
+  .marketing {
+    margin: 60px 0;
+  }
+  .marketing p + h4 {
+    margin-top: 28px;
+  }
+{% endblock %}
+
+
+{% block content %}
+.container{:style => "margin-top: 20px"}
+  .jumbotron
+    %h1 Conserte me! Não me ignore mais, por favor!
+    %p.lead Existem muitos problemas em nossas cidades que parecem que são simplesmente ignorados por quem os devia resolver. Será que eles não são importantes, ou será que ninguém sabe da existência deles? Vamos mostrar onde eles estão, e como atrapalham nossa vida!
+    %a.btn.btn-large.btn-success{:href => "/issues/new/"} Você conhece um problema da sua cidade? Cadastre!
+  %hr/
+  .row-fluid.marketing
+    .span6
+      %h4 Objetivo
+      %p O projeto é uma iniciativa para que, em colaboração, todos possamos ter uma visão maior dos problemas que afetam nossas cidades. Uma tentativa de chamar a atenção do poder público para os problemas existentes, servindo como um canal de comunicação entre àqueles que sofrem pelas consequencias dos problemas urbanos e as autoridades.
+    /
+      div class="span6">
+      <h4>Subheading</h4>
+      <p>.</p>
+      </div
+  .row
+{% endblock %}
