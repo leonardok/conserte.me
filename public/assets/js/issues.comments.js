@@ -6,7 +6,7 @@ $('#issue_comment_form').submit(function() {
 	$(".alert.alert-error.text").text('');
 
 	
-	var regex = /^[#$%^&*()]+$/;
+	var regex = /^.*[#$%^&*()].*$/;
 
 	if( !$('#id_name').val() ) {
 		errors_text += '<li>Nome n&atilde;o pode ser vazio.</li>' ;
