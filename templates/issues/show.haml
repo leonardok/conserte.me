@@ -55,7 +55,7 @@
 	.row
 		.span7
 			{% if not issue.is_visible %}
-			#page-alert-success.alert.alert-warning
+			#page-alert-warning.alert.alert-warning
 				%button.close{"data-dismiss" => "alert", :type => "button"} &times;
 				%span.text
 					Este problema ainda n&atilde;o ir&aacute; aparecer nas listagens pois est&aacute; aguardando
@@ -67,6 +67,7 @@
 			#page-alert-error.alert.hide.alert-error
 				%button.close{"data-dismiss" => "alert", :type => "button"} &times;
 				%span.text
+
 			{% if messages %}
 			{% for message in messages %}
 			.alert{:class => "alert-{{message.tags}}", :id => ""}
@@ -74,6 +75,7 @@
 				%span.text {{message}}
 			{% endfor %}
 			{% endif %}
+
 			%h2{:style => "word-wrap: break-word;"}
 				{{issue.name}}
 				%a.btn.btn-success{"data-toggle" => "modal", :href => "#modal-follow-issue", :role => "button"} Seguir

@@ -1,19 +1,35 @@
 $('#issue_comment_form').submit(function() {
-  ret = true;
-  $('.alert.alert-error').hide();
-  $("#errors_list").text('');
+	var ret = true;
+	var errors_text = '<h4>Erros:</h4><ul>';
 
-  if( !$('#id_name').val() ) {
-    $("#errors_list").append('<li>Nome n&atilde;o pode ser vazio.</li>');
-    $('.alert.alert-error').show();
-    ret = false;
-  }
+	$('.alert.alert-error').hide();
+	$(".alert.alert-error.text").text('');
 
-  if( !$('#id_comment').val() ) {
-    $("#errors_list").append('<li>Descri&ccedil;&atilde;o n&atilde;o pode ser vazio.</li>');
-    $('.alert.alert-error').show();
-    ret = false;
-  }
-  
-  return ret;
+	
+	var regex = /^[#$%^&*()]+$/;
+
+	if( !$('#id_name').val() ) {
+		errors_text += '<li>Nome n&atilde;o pode ser vazio.</li>' ;
+		ret = false;
+	} else if (regex.test($('#id_name').val())) {
+		errors_text += '<li>Caracteres especiais encontrados no seu coment&aacute;io.</li>';
+		ret = false;
+	}
+
+
+	if( !$('#id_comment').val() ) {
+		errors_text += '<li>Descri&ccedil;&atilde;o n&atilde;o pode ser vazio.</li>';
+		ret = false;
+	} else if (regex.test($('#id_comment').val())) {
+		errors_text += '<li>Caracteres especiais encontrados no seu coment&aacute;io.</li>';
+		ret = false;
+	}
+	
+	if( !ret ){
+		errors_text += '</ul>';
+		$(".alert.alert-error .text").prop('innerHTML', errors_text);
+		$('.alert.alert-error').show();
+	}
+
+	return ret;
 });
