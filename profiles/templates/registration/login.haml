@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if form.errors %}
+%p Your username and password didn't match. Please try again.
+{% endif %}
+
+%form{:action => "{% url login %}", :method => "post"}
+  {% csrf_token %}
+  %table
+    %tr
+      %td {{ form.username.label_tag }}
+      %td {{ form.username }}
+    %tr
+      %td {{ form.password.label_tag }}
+      %td {{ form.password }}
+  %input{:type => "submit", :value => "login"}/
+  %input{:name => "next", :type => "hidden", :value => ""}/
+
+{% endblock %}

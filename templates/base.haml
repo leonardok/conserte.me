@@ -15,26 +15,7 @@
     / Fav and touch icons
     %link{:href => "../assets/ico/favicon.png", :rel => "shortcut icon"}/
   %body
-    .navbar.navbar-inverse.navbar-static-top
-      .navbar-inner
-        .container
-          %a.brand{:href => "{% url home %}"} Conserte.me!
-          .nav-collapse.collapse
-            %ul.nav
-              / li class="active"><a href="#">Home</a></li
-              %li
-                %a{:href => "/issues/new"} Cadastre um Problema
-              %li
-                %a{:href => "/about/project/"} Sobre o Projeto
-              %li
-                %a{:href => "/"} Quem somos nos?
-          / /.nav-collapse
-          .pull-right
-            %ul.nav
-              %li
-                %a{:href => "#"}
-                  %span#current_location
-          / /.nav-collapse
+    {% include 'base_menu.haml' %}
     {% block content %}{% endblock %}
     /
       Le javascript

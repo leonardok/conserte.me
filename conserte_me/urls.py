@@ -22,6 +22,7 @@ urlpatterns = patterns('',
     url(r'^', include('issues.urls', app_name="issues")),
 
     url(r'^comments/', include('django.contrib.comments.urls')),
+    url(r'^profiles/', include('profiles.urls', app_name="profiles")),
 )
 
 if settings.DEBUG:

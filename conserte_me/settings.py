@@ -41,6 +41,11 @@ EMAIL_USE_TLS       = True
 
 APPEND_SLASH = True
 
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/profiles/login'
+
+LOGOUT_REDIRECT_URL = '/'
+
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
@@ -132,6 +137,7 @@ TEMPLATE_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     BASE_ROOT + '/templates',
+    BASE_ROOT + '/profiles',
     '/home/conserte_me/website/conserte_me',
     '/home/conserte_me/website/issues',
     '/home/conserte_me/website/templates',
@@ -164,6 +170,7 @@ INSTALLED_APPS = (
 
     'conserte_me',
     'issues',
+    'profiles',
 
     # plugins
     'rest_framework',

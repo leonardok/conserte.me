@@ -2,7 +2,7 @@
 
 
 {% block css %}
-%link{:href => "/assets/css/bootstrap-image-gallery.min.css", :rel => "stylesheet"}/
+%link{:href => "/assets/css/bootstrap-image-gallery.min.css", :rel => "stylesheet"}
 :css
 	html, body {height: 100%; width: 100%}
 	body { width: 100%; }
@@ -81,7 +81,7 @@
 				%a.btn.btn-success{"data-toggle" => "modal", :href => "#modal-follow-issue", :role => "button"} Seguir
 			%dl.dl-horizontal
 				%dt Status
-				%dd {% if issue.open %}Aberto{% else %}Fechado{% endif %}
+				%dd {% if issue.status == 1 %}Aberto{% elif issue.status == 2 %}Fechado{% endif %}
 				%dt Descri&ccedil;&atilde;o
 				%dd {{issue.description}}
 				%dt Fotos
@@ -156,7 +156,7 @@
 			#photos_uploaded
 		.span4.offset1
 			.row{:style => "margin-top: 0px"}
-				.span5{"data-offset-top" => "0", "data-spy" => "affix"}
+				.span4{"data-offset-top" => "0", "data-spy" => "affix"}
 					#map_canvas_small.map.fill{:style => "margin-top: 40px"}
 / modal-upload-photo is the modal used to upload a picture
 #modal-upload-photo.modal.hide.fade{:tabindex => "-1"}
