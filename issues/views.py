@@ -70,6 +70,7 @@ def new(request):
     return render(request, 'issues/new.html')
 
 
+@login_required
 def create(request):
     if request.method == 'POST':
         try:
@@ -89,7 +90,7 @@ def create(request):
 
         issue.latitude = lat
         issue.longitude= lng
-        
+
         issue.save()
         try:
             logging.debug('Saving issue')
@@ -99,7 +100,7 @@ def create(request):
             issue.new_issue_email()
         except:
             raise Http404
-        
+
         return render(request, 'issues/show.html', {'issue': issue})
 
 

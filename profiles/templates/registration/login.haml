@@ -1,21 +1,40 @@
 {% extends "base.html" %}
 
+{% block css %}
+:css
+  .login {padding-bottom: 0px}
+  .login-screen { padding-top: 30px}
+  .lead {color: #8E44AD}
+  h1 {color: #3498DB}
+  p { color: black}
+{% endblock %}
+
 {% block content %}
 
-{% if form.errors %}
-%p Your username and password didn't match. Please try again.
-{% endif %}
-
-%form{:action => "{% url login %}", :method => "post"}
-  {% csrf_token %}
-  %table
-    %tr
-      %td {{ form.username.label_tag }}
-      %td {{ form.username }}
-    %tr
-      %td {{ form.password.label_tag }}
-      %td {{ form.password }}
-  %input{:type => "submit", :value => "login"}/
-  %input{:name => "next", :type => "hidden", :value => ""}/
+%div.container
+  %div.row
+    %div.span12
+      .login
+        .login-screen
+          %form{:action => "{% url login %}", :method => "post"}
+            {% csrf_token %}
+            %input{:name => "next", :type => "hidden", :value => ""}/
+            .login-form
+              .control-group
+                %h1 Login
+              {% if form.errors %}
+              .control-group
+                %p.text-error Sua senha ou usuario estao errados.
+              {% endif %}
+              .control-group
+                %input#login-name.login-field{:placeholder => "Enter your name", :type => "text", :name => "username", :value => ""}/
+                %label.login-field-icon.fui-man-16{:for => "login-name"}
+              .control-group
+                %input#login-pass.login-field{:placeholder => "Password", :type => "password", :name => "password", :value => ""}/
+                %label.login-field-icon.fui-lock-16{:for => "login-pass"}
+              %button.btn.btn-primary.btn-large.btn-block{:type => "submit"} Login
+              /%a.login-link{:href => "#"} Lost your password?
+              %a.login-link{:href => "{% url signup %}"}
+                %strong.lead Ainda nao tem usuario?
 
 {% endblock %}
