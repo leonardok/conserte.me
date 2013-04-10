@@ -42,7 +42,7 @@ EMAIL_USE_TLS       = True
 APPEND_SLASH = True
 
 LOGIN_REDIRECT_URL = '/'
-LOGIN_URL = '/profiles/login'
+LOGIN_URL = '/login'
 
 LOGOUT_REDIRECT_URL = '/'
 
