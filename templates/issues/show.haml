@@ -202,9 +202,9 @@
       {% load thumbnail %}
       {% for photo in issue.photos %}
       $('<a data-gallery="gallery"/>')
-        .append($('<img>').prop('src', "/{{photo.photo|thumbnail_url:'square'}}"))
-        .prop('href', '/{{photo.photo.url}}')
-        .prop('title', "{{photo.name|thumbnail_url:'big'}}")
+        .append($('<img>').prop('src', "/{{photo.photo|thumbnail_url:'big_square'}}"))
+        .prop('href', "/{{photo.photo|thumbnail_url:'big'}}")
+        .prop('title', "Fotos")
         .appendTo(gallery);
       {% endfor %}
   });
