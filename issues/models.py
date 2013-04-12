@@ -7,6 +7,9 @@ from django.template import Context
 from django.conf import settings
 from django.contrib.comments.moderation import CommentModerator, moderator
 from django.contrib import messages
+from easy_thumbnails.files import get_thumbnailer
+
+import socket
 
 from django.contrib.auth.models import User
 
@@ -78,8 +81,22 @@ class Photo(models.Model):
 
     is_public = models.BooleanField(default=False)
 
+
     def __unicode__(self):
         return str(self.issue)
+
+
+    def photo_thumb(self):
+        if settings.RUNNING_DEVSERVER:
+            return '<img src="http://192.168.56.101:5000/%s">' % get_thumbnailer(self.photo)['medium'].url
+
+        img = '<img src="http://conserte.me/%s">' % get_thumbnailer(self.photo)['medium'].url
+        img += '<img src="http://alphastage.conserte.me/%s">' % get_thumbnailer(self.photo)['medium'].url
+        return img
+    photo_thumb.allow_tags = True
+
+
+
 
 
 class IssueCommentModerator(CommentModerator):
@@ -141,17 +158,17 @@ class Issue(models.Model):
                     settings.MANAGERS, fail_silently=False)
 
 
+
     def email_photo(self):
         logging.debug('################  Sending comment moderation email for added photo  ################')
 
         plaintext = get_template('issues/email_new_photo.txt')
 
-        context = Context({ 'issue': self })
+        context = Context({ 'photo': self })
         text_content = plaintext.render(context)
         send_mail('Novo foto adicionada', text_content, 'avisos@conserte.me',
                     settings.MANAGERS, fail_silently=False)
 
-        messages.success(request, u"Coment\u00E1rio enviado com sucesso. Aguarde a libera\u00E7\u00E3o.")
         return True
 
 

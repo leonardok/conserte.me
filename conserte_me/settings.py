@@ -1,4 +1,5 @@
 import os
+import sys
 import django
 import logging
 
@@ -9,6 +10,8 @@ BASE_ROOT = os.path.abspath(os.path.join(SITE_ROOT, os.pardir))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+
+RUNNING_DEVSERVER = (sys.argv[1] == 'runserver')
 
 ADMINS = (
     ('Leonardo Korndorfer', 'leokorndorfer@gmail.com'),
@@ -186,6 +189,7 @@ INSTALLED_APPS = (
 THUMBNAIL_ALIASES = {
     '': {
         'square': {'size': (50, 50), 'crop': 'smart'},
+        'medium': {'size': (250, 250), 'crop': False},
         'big':    {'size': (500, 500), 'crop': False},
     },
 }
