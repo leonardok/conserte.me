@@ -7,8 +7,6 @@
     %meta{:content => "", :name => "description"}/
     %meta{:content => "", :name => "author"}/
 
-    {% block css %}{% endblock %}
-
     %link{:href => "/assets/css/bootstrap.css", :rel => "stylesheet"}/
     %link{:href => "/assets/flat-ui/css/flat-ui.css", :rel => "stylesheet"}
     %link{:href => "/assets/css/application.css", :rel => "stylesheet"}/
@@ -41,6 +39,8 @@
     /[if lt IE 9]
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     / Fav and touch icons
+    {% block css %}{% endblock %}
+
     %link{:href => "../assets/ico/favicon.png", :rel => "shortcut icon"}/
   %body
     #wrap
