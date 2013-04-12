@@ -119,21 +119,11 @@
             {{ form.security_hash }}
             %input{:name => "next", :type => "hidden", :value => "/issues/{{issue.id}}"}/
             %input{:name => "email", :type => "hidden", :value => "{{user.email}}"}/
+            %input{:name => "name", :id => "id_name", :type => "hidden", :value => "{{user.username}}"}/
             %input{:name => "user_id", :type => "hidden", :value => "{{user.id}}"}/
             {% csrf_token %}
-            .control-group
-              %label.control-label{:for => "id_name"} Nome:
-              .controls
-                %input#id_name.input-block-level{:maxlength => "50", :name => "name", :type => "text"}/
-                %br/
-            .control-group
-              %label.control-label{:for => "id_comment"} Comentario:
-              .controls
-                %textarea#id_comment.input-block-level{:name => "comment", :rows => "3"}
-            .control-group
-              %label.control-label{:for => "id_comment"}
-              .controls
-                %button.btn{:type => "submit"} Enviar
+            %textarea#id_comment.input-block-level{:name => "comment", :rows => "3"}
+            %button.btn{:type => "submit", :style => "margin-top: 10px"} Enviar
         {% else %}
         .row-fluid
           Voce nao podera postar comentarios sem estar logado
