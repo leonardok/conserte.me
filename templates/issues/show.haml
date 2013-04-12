@@ -22,6 +22,7 @@
   #modal-upload-photo .modal-body { min-height: 100px; }
   #modal-follow-issue .modal-body { min-height: 70px; }
   .alert { margin-top: 20px;}
+  blockquote { margin-bottom: 0px;}
 %link{:href => "/assets/css/bootstrap-image-gallery.min.css", :rel => "stylesheet"}
 {% endblock %}
 
@@ -134,13 +135,12 @@
           {% get_comment_list for issue as comment_list %}
           {% for comment in comment_list reversed %}
           .row.comment{:style => "margin-bottom: 15px;"}
-            %span.span3.comment_name
             %blockquote
               %p
                 %b {{comment.name}}
               %small {{comment.submit_date}}
-            .span4.comment_comment{:style => "word-wrap: break-word"}
-              {{comment.comment}}
+              %p{:style => "font-size: 1em; margin-top: .8em"}
+                {{comment.comment}}
           {% endfor %}
         / ###############################################################
         / ###############################################################

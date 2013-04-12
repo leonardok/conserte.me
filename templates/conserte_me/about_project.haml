@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base_w_footer.html' %}
 
 {% block css %}
 :css
@@ -22,6 +22,7 @@
   .marketing p + h4 {
     margin-top: 28px;
   }
+  .last_row { margin-bottom: 100px;}
 {% endblock %}
 
 
@@ -46,4 +47,20 @@
           %p Tema "flat" desenvolvido tendo o Bootstrap como base, foi aberta para o uso da comunidade.
         %li Python & Django
           %p Todo este site foi feito usando python e django.
+
+  .row-fluid
+    .span12
+      %h2 Quer falar conosco?
+      %p Para entrar em contato conosco voce deve mandar um email para contato@conserte.me
+      %p
+        Nosso contato serve pra que voce nos diga qualquer coisa aleatoria que tiver vontade. Claro que preferimos
+        assuntos relacionados ao site, mas voce tambem pode entrar em contato para nos oferecer bolinhos. Nos gostamos
+        de bolinhos.
+
+      %p 
+        Adoramos feedbacks! Entao adorariamos receber sua opiniao sobre o site, ideias de como melhorar, o que podiamos
+        mudar ou adicionar para que o servico fique mais legal. Vale lembrar que esse trabalho precisa do colaboracao
+        da populacao, entao passe a ideia a diante! :-)
+
+  .row.span12.last_row
 {% endblock %}
