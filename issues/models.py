@@ -79,7 +79,7 @@ class Photo(models.Model):
     is_public = models.BooleanField(default=False)
 
     def __unicode__(self):
-        return self.name
+        return str(self.issue)
 
 
 class IssueCommentModerator(CommentModerator):
@@ -114,7 +114,7 @@ class Issue(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     page_hits = models.IntegerField(default=0)
-    
+
     is_public = models.BooleanField(default=False)
     status = models.IntegerField(default=True)
 
@@ -140,6 +140,19 @@ class Issue(models.Model):
         send_mail('Novo problema cadastrado', text_content, 'avisos@conserte.me',
                     settings.MANAGERS, fail_silently=False)
 
+
+    def email_photo(self):
+        logging.debug('################  Sending comment moderation email for added photo  ################')
+
+        plaintext = get_template('issues/email_new_photo.txt')
+
+        context = Context({ 'issue': self })
+        text_content = plaintext.render(context)
+        send_mail('Novo foto adicionada', text_content, 'avisos@conserte.me',
+                    settings.MANAGERS, fail_silently=False)
+
+        messages.success(request, u"Coment\u00E1rio enviado com sucesso. Aguarde a libera\u00E7\u00E3o.")
+        return True
 
 
 
@@ -180,7 +193,7 @@ class Issue(models.Model):
             c, created = City.objects.get_or_create(name=city_long, state=s)
 
             self.city = c
-        
+
         super(Issue, self).save(*args, **kwargs)
 
 
