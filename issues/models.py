@@ -75,7 +75,7 @@ class Follower(models.Model):
 
 
 class Photo(models.Model):
-    name = models.CharField(max_length=100, blank=False, null=False)
+    name = models.CharField(max_length=100, blank=True, null=False, default="Sem nome")
     issue = models.ForeignKey('Issue', blank=False, null=False)
     photo = models.FileField(upload_to='issue_pictures/%Y/%m/%d')
 
