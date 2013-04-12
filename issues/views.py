@@ -9,6 +9,7 @@ from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from easy_thumbnails.files import get_thumbnailer, generate_all_aliases
+from django.contrib import messages
 
 from django.contrib.auth.decorators import login_required
 
@@ -35,7 +36,7 @@ def show(request, issue_id):
 
     c = RequestContext(request, { 'issue': issue })
     return render(request, 'issues/show.html', c)
-    
+
 
 def search(request, country, state, city):
     page = request.GET.get('page')
@@ -114,6 +115,11 @@ def add_photo(request):
         logging.debug(request.FILES['photo_file'])
         photo = Photo.objects.create(photo = request.FILES['photo_file'], issue_id=request.POST['issue_id'])
         photo.save()
+
+        issue = Issue.objects.get(id=request.POST['issue_id'])
+        issue.email_photo()
+
+        messages.success(request, u"Foto enviada com sucesso. Aguarde a libera\u00E7\u00E3o.")
 
         return redirect('/issues/' + request.POST['issue_id'])
     else:
