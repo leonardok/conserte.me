@@ -1,4 +1,4 @@
-from issues.models import Issue, State, City
+from issues.models import Issue, State, City, Photo
 from django.contrib import admin
 
 class IssueAdmin(admin.ModelAdmin):
@@ -7,3 +7,4 @@ class IssueAdmin(admin.ModelAdmin):
 admin.site.register(Issue, IssueAdmin)
 admin.site.register(State)
 admin.site.register(City)
+admin.site.register(Photo)
