@@ -70,7 +70,7 @@ def issues(request):
 				lng_sw = request.GET['lng_sw']
 				lat_ne = request.GET['lat_ne']
 				lng_ne = request.GET['lng_ne']
-				issues = Issue.objects.all().filter(latitude__lte=lat_ne, latitude__gte=lat_sw, longitude__lte=lng_ne, longitude__gte=lng_sw)
+				issues = Issue.objects.all().filter(is_public=True, latitude__lte=lat_ne, latitude__gte=lat_sw, longitude__lte=lng_ne, longitude__gte=lng_sw)
 
 			else: issues = Issue.objects.all()
 				

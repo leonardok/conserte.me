@@ -5,7 +5,7 @@ class IssueAdmin(admin.ModelAdmin):
     list_display = ('name', 'is_public', 'enable_comments', 'latitude', 'longitude')
 
 class PhotoAdmin(admin.ModelAdmin):
-    list_display = ('issue', 'name', 'photo_thumb')
+    list_display = ('issue', 'name', 'photo_thumb', 'is_public')
 
 admin.site.register(Issue, IssueAdmin)
 admin.site.register(State)
