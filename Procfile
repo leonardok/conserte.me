@@ -1,1 +1,1 @@
-web: python manage.py collectstatic --noinput; gunicorn conserte_me.wsgi
+web: python manage.py collectstatic --noinput; newrelic-admin run-program gunicorn conserte_me.wsgi
