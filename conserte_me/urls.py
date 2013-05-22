@@ -22,9 +22,6 @@ urlpatterns = patterns('',
     url(r'^', include('issues.urls', app_name="issues")),
 
     url(r'^comments/', include('django.contrib.comments.urls')),
-)
 
-if settings.DEBUG:
-	urlpatterns += patterns('',
-		url(r'^media/(?P<path>.*)$', 'django.views.static.serve', { 'document_root': settings.MEDIA_ROOT, }),
+    url(r'^assets/(?P<path>.*)$', 'django.views.static.serve', { 'document_root': settings.STATIC_ROOT, }),
 )

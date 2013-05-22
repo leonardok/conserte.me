@@ -19,12 +19,12 @@ MANAGERS = ['leokorndorfer@gmail.com', 'cristianobfernandes@gmail.com']
 
 DATABASES = {
     'default': {
-        'ENGINE': os.environ['DB_ENGINE'], # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': os.environ['DB_NAME'],     # Or path to database file if using sqlite3.
-        'USER': os.environ['DB_USER'],     # Not used with sqlite3.
-        'PASSWORD': os.environ['DB_PWD'],  # Not used with sqlite3.
-        'HOST': os.environ['DB_HOST'],     # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': os.environ['DB_PORT'],     # Set to empty string for default. Not used with sqlite3.
+        'ENGINE': os.environ['DATABASE_ENGINE'], # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': os.environ['DATABASE_NAME'],     # Or path to database file if using sqlite3.
+        'USER': os.environ['DATABASE_USER'],     # Not used with sqlite3.
+        'PASSWORD': os.environ['DATABASE_PASSWORD'],  # Not used with sqlite3.
+        'HOST': os.environ['DATABASE_HOST'],     # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': os.environ['DATABASE_PORT'],     # Set to empty string for default. Not used with sqlite3.
     }
 }
 
@@ -88,8 +88,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    BASE_ROOT + '/public/assets/',
-    BASE_ROOT + '/public/assets/bootstrap/',
+    BASE_ROOT + '/static/assets/',
 )
 
 # List of finder classes that know how to find static files in
