@@ -8,7 +8,7 @@ SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 BASE_ROOT = os.path.abspath(os.path.join(SITE_ROOT, os.pardir))
 # Django settings for conserte_me project.
 
-DEBUG = True
+DEBUG = os.environ['DEBUG']
 TEMPLATE_DEBUG = DEBUG
 
 RUNNING_DEVSERVER = (sys.argv[1] == 'runserver')
