@@ -6,7 +6,10 @@
     %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}/
     %meta{:content => "", :name => "description"}/
     %meta{:content => "", :name => "author"}/
+
     %link{:href => "/assets/css/bootstrap.css", :rel => "stylesheet"}/
+    %link{:href => "/assets/flat-ui/css/flat-ui.css", :rel => "stylesheet"}
+    %link{:href => "/assets/css/application.css", :rel => "stylesheet"}/
     / page specific css
     :css
       /* Sticky footer styles
@@ -31,40 +34,22 @@
       /* Set the fixed height of the footer here */
       #push, #footer { height: 90px; }
       #footer { padding-top: 20px; background-color: #f5f5f5; }
-	    {% block css %}{% endblock %}
+
     / HTML5 shim, for IE6-8 support of HTML5 elements
     /[if lt IE 9]
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     / Fav and touch icons
+    {% block css %}{% endblock %}
+
     %link{:href => "../assets/ico/favicon.png", :rel => "shortcut icon"}/
   %body
     #wrap
-      .navbar.navbar-inverse.navbar-fixed-top
-        .navbar-inner
-          .container
-            %div
-              %a.brand{:href => "{% url home %}"} Conserte.me!
-              .nav-collapse.collapse
-                %ul.nav
-                  / li class="active"><a href="#">Home</a></li
-                  %li
-                    %a{:href => "/issues/new"} Cadastre um Problema
-                  %li
-                    %a{:href => "/about/project/"} Sobre o Projeto
-                  %li
-                    %a{:href => "/"} Quem somos n&oacute;s?
-              / /.nav-collapse
-              .pull-right
-                %ul.nav
-                  %li
-                    %a{:href => "#"}
-                      %span#current_location
-              / /.nav-collapse
+      {% include 'base_menu.haml' %}
       {% block content %}{% endblock %}
     #footer
       .container
         %p.muted.credit
-          Example courtesy
+          Conserte.me
     / /.wrap
     /
       Le javascript

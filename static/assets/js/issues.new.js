@@ -28,8 +28,8 @@ function init_map(){
 				$('#latitude').val(marker.position.lat());
 				$('#longitude').val(marker.position.lng());
 				$('#janela_novo_problema').modal('show')
-                  });
-                });
+				  });
+				});
 	});
 }
 
@@ -38,6 +38,9 @@ function init_map(){
 $("#new_problem_message_checkbox").click(function(){
 	if ( $("#new_problem_message_checkbox").prop('checked') ){
 		$.cookie('problem_message_checkbox', false, { expires: 30 });
+	}
+	else {
+		$.removeCookie('problem_message_checkbox');
 	}
 });
 
@@ -78,10 +81,10 @@ $('#send_new_issue').click(function(){
 
 	// For now we will let the email to be empty
 	// if( !$('#description').val() ) {
-	// 	$("#email_control_group").addClass('error');
-	// 	$("#email_error").text('Email não pode ser vazio');
-	// 	$("#email_error").show();
-	// 	bValid = false;
+	//	$("#email_control_group").addClass('error');
+	//	$("#email_error").text('Email não pode ser vazio');
+	//	$("#email_error").show();
+	//	bValid = false;
 	// }
 	if( $('#email').val().length > 100 ) {
 		$("#email_control_group").addClass('error');

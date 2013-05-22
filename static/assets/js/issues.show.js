@@ -129,4 +129,3 @@ $('#btn-cancel-follow-issue').click(function(){
 $('#btn-follow-issue').click(function(){ submit_issue_follower(); }); 
 $('#form_follow_issue').submit(function(){ submit_issue_follower(); return false; });
 
-$(document).ready(function() { init_map(); });

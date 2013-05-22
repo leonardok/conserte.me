@@ -1,0 +1,18 @@
+Ola!
+
+We've got a photo!!
+A foto foi adicionada ao issue #{{issue.id}}
+
+Para ajustar a moderação para esta foto vá para:
+http://concerte.me/admin/issues/photo/{{photo.id}}
+
+
+#### Usuário ####
+{{ comment.user_name|safe }}
+
+#### Contiudo ####
+{{ comment.comment|safe }}
+
+
+Abrasss,
+Avisos, THE bot.

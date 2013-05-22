@@ -23,5 +23,11 @@ urlpatterns = patterns('',
 
     url(r'^comments/', include('django.contrib.comments.urls')),
 
+    url(r'^login/$', 'django.contrib.auth.views.login', name='login'),
+    url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}, name='logout'),
+    url(r'^signup/$', 'profiles.views.new', name='signup'),
+
+    url(r'^profiles/', include('profiles.urls', app_name="profiles")),
+
     url(r'^assets/(?P<path>.*)$', 'django.views.static.serve', { 'document_root': settings.STATIC_ROOT, }),
 )

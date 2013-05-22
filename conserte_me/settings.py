@@ -1,4 +1,5 @@
 import os
+import sys
 import django
 import logging
 
@@ -9,6 +10,8 @@ BASE_ROOT = os.path.abspath(os.path.join(SITE_ROOT, os.pardir))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+
+RUNNING_DEVSERVER = (sys.argv[1] == 'runserver')
 
 ADMINS = (
     ('Leonardo Korndorfer', 'leokorndorfer@gmail.com'),
@@ -40,6 +43,11 @@ EMAIL_PORT          = 587
 EMAIL_USE_TLS       = True
 
 APPEND_SLASH = True
+
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/login'
+
+LOGOUT_REDIRECT_URL = '/'
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -131,6 +139,7 @@ TEMPLATE_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     BASE_ROOT + '/templates',
+    BASE_ROOT + '/profiles',
     '/home/conserte_me/website/conserte_me',
     '/home/conserte_me/website/issues',
     '/home/conserte_me/website/templates',
@@ -163,6 +172,7 @@ INSTALLED_APPS = (
 
     'conserte_me',
     'issues',
+    'profiles',
 
     # plugins
     'rest_framework',
@@ -178,6 +188,8 @@ INSTALLED_APPS = (
 THUMBNAIL_ALIASES = {
     '': {
         'square': {'size': (50, 50), 'crop': 'smart'},
+        'big_square': {'size': (100, 100), 'crop': 'smart'},
+        'medium': {'size': (250, 250), 'crop': False},
         'big':    {'size': (500, 500), 'crop': False},
     },
 }
