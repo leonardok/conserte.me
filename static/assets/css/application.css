@@ -1,0 +1,20 @@
+.navbar .brand {
+  color: #1abc9c;
+  font-size: 24px;
+  font-weight: 900;
+  padding-bottom: 16px;
+  padding-top: 9px;
+}
+.navbar-inverse .nav.rightmenu li a { font-size: 0.8em }
+.fill { 
+  height: 100%; 
+  height: calc(100% - 53px); 
+  height: -webkit-calc(100% - 53px); 
+  height: -moz-calc(100% - 53px); */
+  width: 100%;
+}
+#map_canvas {
+  position: absolute; 
+  width: 100%;
+  padding: 0px;
+}
