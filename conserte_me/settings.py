@@ -1,4 +1,5 @@
 import os
+import sys
 import django
 import logging
 
@@ -7,8 +8,10 @@ SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 BASE_ROOT = os.path.abspath(os.path.join(SITE_ROOT, os.pardir))
 # Django settings for conserte_me project.
 
-DEBUG = True
+DEBUG = os.environ['DEBUG']
 TEMPLATE_DEBUG = DEBUG
+
+RUNNING_DEVSERVER = (sys.argv[1] == 'runserver')
 
 ADMINS = (
     ('Leonardo Korndorfer', 'leokorndorfer@gmail.com'),
@@ -19,12 +22,12 @@ MANAGERS = ['leokorndorfer@gmail.com', 'cristianobfernandes@gmail.com']
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'database.sqlite3',             # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        'ENGINE': os.environ['DATABASE_ENGINE'], # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': os.environ['DATABASE_NAME'],     # Or path to database file if using sqlite3.
+        'USER': os.environ['DATABASE_USER'],     # Not used with sqlite3.
+        'PASSWORD': os.environ['DATABASE_PASSWORD'],  # Not used with sqlite3.
+        'HOST': os.environ['DATABASE_HOST'],     # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': os.environ['DATABASE_PORT'],     # Set to empty string for default. Not used with sqlite3.
     }
 }
 
@@ -40,6 +43,11 @@ EMAIL_PORT          = 587
 EMAIL_USE_TLS       = True
 
 APPEND_SLASH = True
+
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/login'
+
+LOGOUT_REDIRECT_URL = '/'
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -88,8 +96,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    BASE_ROOT + '/public/assets/',
-    BASE_ROOT + '/public/assets/bootstrap/',
+    BASE_ROOT + '/static/assets/',
 )
 
 # List of finder classes that know how to find static files in
@@ -132,6 +139,7 @@ TEMPLATE_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     BASE_ROOT + '/templates',
+    BASE_ROOT + '/profiles',
     '/home/conserte_me/website/conserte_me',
     '/home/conserte_me/website/issues',
     '/home/conserte_me/website/templates',
@@ -144,7 +152,7 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.sites',
+    # 'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.comments',
@@ -164,6 +172,7 @@ INSTALLED_APPS = (
 
     'conserte_me',
     'issues',
+    'profiles',
 
     # plugins
     'rest_framework',
@@ -179,6 +188,8 @@ INSTALLED_APPS = (
 THUMBNAIL_ALIASES = {
     '': {
         'square': {'size': (50, 50), 'crop': 'smart'},
+        'big_square': {'size': (100, 100), 'crop': 'smart'},
+        'medium': {'size': (250, 250), 'crop': False},
         'big':    {'size': (500, 500), 'crop': False},
     },
 }

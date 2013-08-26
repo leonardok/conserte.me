@@ -1,0 +1,26 @@
+.navbar.navbar-inverse.navbar-static-top
+  .navbar-inner
+    .container
+      %a.brand{:href => "/"} Conserte.me!
+      .nav-collapse.collapse
+        %ul.nav
+          / li class="active"><a href="#">Home</a></li
+          %li
+            %a{:href => "/issues/new"} Cadastre um Problema
+          %li
+            %a{:href => "/about/project/"} Sobre o Projeto
+          /%li
+          /  %a{:href => "/"} Quem somos nos?
+
+      .pull-right
+        %ul.nav.rightmenu{:style => "right:0px;", :width => "300px"}
+          {% if user.is_authenticated %}
+          %li 
+            %a{:href => "{% url logout %}"} 
+              Fazer logout de {{user.username}}
+          {% else %}
+          %li
+            %a{:href => "{% url login %}"}
+              %span#login Login
+          {% endif %}
+

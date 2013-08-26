@@ -22,9 +22,12 @@ urlpatterns = patterns('',
     url(r'^', include('issues.urls', app_name="issues")),
 
     url(r'^comments/', include('django.contrib.comments.urls')),
-)
 
-if settings.DEBUG:
-	urlpatterns += patterns('',
-		url(r'^media/(?P<path>.*)$', 'django.views.static.serve', { 'document_root': settings.MEDIA_ROOT, }),
+    url(r'^login/$', 'django.contrib.auth.views.login', name='login'),
+    url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}, name='logout'),
+    url(r'^signup/$', 'profiles.views.new', name='signup'),
+
+    url(r'^profiles/', include('profiles.urls', app_name="profiles")),
+
+    url(r'^assets/(?P<path>.*)$', 'django.views.static.serve', { 'document_root': settings.STATIC_ROOT, }),
 )
