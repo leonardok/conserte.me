@@ -96,52 +96,52 @@
           / ###############################################################
           / ###############################################################
           / ###############################################################
-        .row-fluid
-          %hr/
-          %h4 Deixe seu comentario
-        / new comment
-        {% if success %}
-        .alert.alert-error{:style => "display: none"}
-          %h4{:style => "padding-bottom: 10px;"} Aten&ccedil;&atilde;o!
-          %ul#errors_list
-        {% endif %}
+        / .row-fluid
+        /   %hr/
+        /   %h4 Deixe seu comentario
+        / / new comment
+        / {% if success %}
+        / .alert.alert-error{:style => "display: none"}
+        /   %h4{:style => "padding-bottom: 10px;"} Aten&ccedil;&atilde;o!
+        /   %ul#errors_list
+        / {% endif %}
 
 
-        {% load comments %}
-        {% get_comment_form for issue as form %}
+        / {% load comments %}
+        / {% get_comment_form for issue as form %}
 
-        {% if user.is_authenticated %}
-        .row-fluid
-          {{comment_form_target}}
-          %form#issue_comment_form.form-horizontal{:action => "{% comment_form_target %}", :method => "post"}
-            {{ form.content_type }}
-            {{ form.object_pk }}
-            {{ form.timestamp }}
-            {{ form.security_hash }}
-            %input{:name => "next", :type => "hidden", :value => "/issues/{{issue.id}}"}/
-            %input{:name => "email", :type => "hidden", :value => "{{user.email}}"}/
-            %input{:name => "name", :id => "id_name", :type => "hidden", :value => "{{user.username}}"}/
-            %input{:name => "user_id", :type => "hidden", :value => "{{user.id}}"}/
-            {% csrf_token %}
-            %textarea#id_comment.input-block-level{:name => "comment", :rows => "3"}
-            %button.btn{:type => "submit", :style => "margin-top: 10px"} Enviar
-        {% else %}
-        .row-fluid
-          Voce nao podera postar comentarios sem estar logado
-        {% endif %}
-        .row-fluid
-          %hr/
-        .row-fluid{:style => "margin-bottom: 80px; margin-top: 20px;"}
-          {% get_comment_list for issue as comment_list %}
-          {% for comment in comment_list reversed %}
-          .row.comment{:style => "margin-bottom: 15px;"}
-            %blockquote
-              %p
-                %b {{comment.name}}
-              %small {{comment.submit_date}}
-              %p{:style => "font-size: 1em; margin-top: .8em"}
-                {{comment.comment}}
-          {% endfor %}
+        / {% if user.is_authenticated %}
+        / .row-fluid
+        /   {{comment_form_target}}
+        /   %form#issue_comment_form.form-horizontal{:action => "{% comment_form_target %}", :method => "post"}
+        /     {{ form.content_type }}
+        /     {{ form.object_pk }}
+        /     {{ form.timestamp }}
+        /     {{ form.security_hash }}
+        /     %input{:name => "next", :type => "hidden", :value => "/issues/{{issue.id}}"}/
+        /     %input{:name => "email", :type => "hidden", :value => "{{user.email}}"}/
+        /     %input{:name => "name", :id => "id_name", :type => "hidden", :value => "{{user.username}}"}/
+        /     %input{:name => "user_id", :type => "hidden", :value => "{{user.id}}"}/
+        /     {% csrf_token %}
+        /     %textarea#id_comment.input-block-level{:name => "comment", :rows => "3"}
+        /     %button.btn{:type => "submit", :style => "margin-top: 10px"} Enviar
+        / {% else %}
+        / .row-fluid
+        /   Voce nao podera postar comentarios sem estar logado
+        / {% endif %}
+        / .row-fluid
+        /   %hr/
+        / .row-fluid{:style => "margin-bottom: 80px; margin-top: 20px;"}
+        /   {% get_comment_list for issue as comment_list %}
+        /   {% for comment in comment_list reversed %}
+        /   .row.comment{:style => "margin-bottom: 15px;"}
+        /     %blockquote
+        /       %p
+        /         %b {{comment.name}}
+        /       %small {{comment.submit_date}}
+        /       %p{:style => "font-size: 1em; margin-top: .8em"}
+        /         {{comment.comment}}
+        /   {% endfor %}
         / ###############################################################
         / ###############################################################
         / ###############################################################
